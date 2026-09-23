@@ -18,6 +18,7 @@
       --muted: #64748b;
       --line: #e2e8f0;
       --accent: #2563eb;
+      --accent-dark: #1d4ed8;
       --accent-soft: #eff6ff;
       --shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
       --radius: 18px;
@@ -38,6 +39,11 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.7;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
     }
 
     a {
@@ -95,13 +101,13 @@
     }
 
     .hero {
-      padding: 96px 0 70px;
+      padding: 88px 0 62px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.7fr);
-      gap: 48px;
+      grid-template-columns: minmax(0, 1.45fr) minmax(290px, 0.65fr);
+      gap: 52px;
       align-items: center;
     }
 
@@ -114,7 +120,7 @@
       border: 1px solid #bfdbfe;
       border-radius: 999px;
       background: var(--accent-soft);
-      color: #1d4ed8;
+      color: var(--accent-dark);
       font-size: 13px;
       font-weight: 700;
     }
@@ -191,20 +197,36 @@
     }
 
     .profile-card {
-      padding: 26px;
+      overflow: hidden;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: var(--surface);
       box-shadow: var(--shadow);
     }
 
-    .profile-card h3 {
-      margin: 0 0 18px;
+    .portrait-wrap {
+      padding: 18px 18px 0;
+    }
+
+    .portrait {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      border-radius: 14px;
+      background: var(--surface-soft);
+    }
+
+    .profile-body {
+      padding: 22px 24px 24px;
+    }
+
+    .profile-body h3 {
+      margin: 0 0 16px;
       font-size: 18px;
     }
 
     .profile-row {
-      padding: 12px 0;
+      padding: 11px 0;
       border-top: 1px solid var(--line);
     }
 
@@ -217,14 +239,14 @@
       display: block;
       margin-bottom: 3px;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
     }
 
     .profile-value {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
     }
 
@@ -233,6 +255,7 @@
     }
 
     section {
+      scroll-margin-top: 90px;
       margin-top: 28px;
       padding: 38px;
       border: 1px solid var(--line);
@@ -266,6 +289,12 @@
       margin: 0;
       color: #475569;
       font-size: 17px;
+    }
+
+    .section-note {
+      margin: -8px 0 24px;
+      color: var(--muted);
+      font-size: 14px;
     }
 
     .tags {
@@ -314,6 +343,49 @@
       color: #475569;
       font-size: 13px;
       font-weight: 650;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+      align-items: start;
+    }
+
+    .result-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #ffffff;
+    }
+
+    .result-card a {
+      display: block;
+      background: #ffffff;
+    }
+
+    .result-card img {
+      width: 100%;
+      height: auto;
+      transition: transform 0.2s ease;
+    }
+
+    .result-card a:hover img {
+      transform: scale(1.01);
+    }
+
+    .result-caption {
+      padding: 14px 16px 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .result-caption strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+      font-size: 14px;
     }
 
     .education-item {
@@ -387,14 +459,19 @@
 
     @media (max-width: 800px) {
       .hero {
-        padding-top: 66px;
+        padding-top: 58px;
       }
 
       .hero-grid,
       .projects-grid,
+      .results-grid,
       .skills-grid,
       .contact-grid {
         grid-template-columns: 1fr;
+      }
+
+      .profile-card {
+        max-width: 380px;
       }
 
       .nav-links {
@@ -424,6 +501,7 @@
         <a href="#about">About</a>
         <a href="#research">Research</a>
         <a href="#projects">Projects</a>
+        <a href="#results">Results</a>
         <a href="#education">Education</a>
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
@@ -465,26 +543,38 @@
       </div>
 
       <aside class="profile-card" aria-label="Profile summary">
-        <h3>Profile</h3>
-
-        <div class="profile-row">
-          <span class="profile-label">University</span>
-          <span class="profile-value">Japan Advanced Institute of Science and Technology</span>
+        <div class="portrait-wrap">
+          <img
+            class="portrait"
+            src="assets/profile.jpg"
+            alt="Portrait of LIU Xiaocheng"
+            width="240"
+            height="320"
+          />
         </div>
 
-        <div class="profile-row">
-          <span class="profile-label">Field</span>
-          <span class="profile-value">Information Science</span>
-        </div>
+        <div class="profile-body">
+          <h3>Profile</h3>
 
-        <div class="profile-row">
-          <span class="profile-label">Degree</span>
-          <span class="profile-value">Master's Student</span>
-        </div>
+          <div class="profile-row">
+            <span class="profile-label">University</span>
+            <span class="profile-value">Japan Advanced Institute of Science and Technology</span>
+          </div>
 
-        <div class="profile-row">
-          <span class="profile-label">Location</span>
-          <span class="profile-value">Nomi, Ishikawa, Japan</span>
+          <div class="profile-row">
+            <span class="profile-label">Field</span>
+            <span class="profile-value">Information Science</span>
+          </div>
+
+          <div class="profile-row">
+            <span class="profile-label">Degree</span>
+            <span class="profile-value">Master's Student</span>
+          </div>
+
+          <div class="profile-row">
+            <span class="profile-label">Location</span>
+            <span class="profile-value">Nomi, Ishikawa, Japan</span>
+          </div>
         </div>
       </aside>
     </div>
@@ -556,6 +646,62 @@
             Generative AI · Stable Diffusion · Defect Detection · PyTorch
           </div>
         </article>
+      </div>
+    </section>
+
+    <section id="results">
+      <div class="section-heading">
+        <h2>Qualitative Reconstruction Results</h2>
+        <span class="section-kicker">3D Clothed Human Reconstruction</span>
+      </div>
+
+      <p class="section-note">
+        Example qualitative comparisons among Ground Truth, the proposed method,
+        SIFU, and SiTH. Click an image to open the larger version.
+      </p>
+
+      <div class="results-grid">
+        <figure class="result-card">
+          <a
+            href="assets/reconstruction-compare-1.jpg"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open reconstruction comparison example 1"
+          >
+            <img
+              src="assets/reconstruction-compare-1.jpg"
+              alt="Qualitative 3D reconstruction comparison example 1"
+              loading="lazy"
+              width="450"
+              height="694"
+            />
+          </a>
+          <figcaption class="result-caption">
+            <strong>Reconstruction Example 1</strong>
+            Multi-view qualitative comparison of reconstructed clothed-human geometry.
+          </figcaption>
+        </figure>
+
+        <figure class="result-card">
+          <a
+            href="assets/reconstruction-compare-2.jpg"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open reconstruction comparison example 2"
+          >
+            <img
+              src="assets/reconstruction-compare-2.jpg"
+              alt="Qualitative 3D reconstruction comparison example 2"
+              loading="lazy"
+              width="450"
+              height="621"
+            />
+          </a>
+          <figcaption class="result-caption">
+            <strong>Reconstruction Example 2</strong>
+            Multi-view qualitative comparison on a second clothed-human sample.
+          </figcaption>
+        </figure>
       </div>
     </section>
 
