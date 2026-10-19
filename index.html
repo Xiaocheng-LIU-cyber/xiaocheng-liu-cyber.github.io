@@ -198,7 +198,16 @@
       border-radius:11px; background:var(--surface-soft);
     }
     .gt-yaw-controls label { color:var(--text); font-size:13px; font-weight:750; }
-    .gt-yaw-controls input[type="range"] { flex:1 1 240px; min-width:120px; accent-color:var(--accent); cursor:pointer; }
+    .gt-yaw-controls input[type="range"] { flex:1 1 210px; min-width:120px; accent-color:var(--accent); cursor:pointer; }
+    .gt-yaw-controls input[type="number"] {
+      width:83px; padding:7px 8px; border:1px solid #cbd5e1; border-radius:8px;
+      color:var(--text); background:#fff; font:inherit; font-size:13px; font-variant-numeric:tabular-nums;
+    }
+    .gt-yaw-controls input[type="number"]:focus-visible, .gt-yaw-controls input[type="range"]:focus-visible {
+      outline:2px solid #93c5fd; outline-offset:2px;
+    }
+    .gt-yaw-controls #gt-yaw-feedback { width:100%; font-size:12px; font-weight:650; color:var(--accent-dark); }
+    .gt-yaw-controls #gt-yaw-feedback:empty { display:none; }
     .gt-yaw-controls output { min-width:54px; text-align:right; color:var(--accent-dark); font-size:14px; font-weight:800; font-variant-numeric:tabular-nums; }
     .gt-yaw-controls .viewer-btn { padding:6px 10px; }
     .gt-yaw-hint { width:100%; color:var(--muted); font-size:12px; }
@@ -415,10 +424,14 @@
       </p>
       <div class="gt-yaw-controls" role="group" aria-label="Ground Truth alignment">
         <label for="gt-yaw">GT orientation correction</label>
-        <input id="gt-yaw" type="range" min="-180" max="180" step="1" value="-140" aria-describedby="gt-yaw-hint" />
-        <output id="gt-yaw-value" for="gt-yaw">-140°</output>
+        <input id="gt-yaw" type="range" min="-180" max="180" step="0.1" value="-140" aria-describedby="gt-yaw-hint" />
+        <label for="gt-yaw-number">Degrees</label>
+        <input id="gt-yaw-number" type="number" min="-180" max="180" step="0.1" value="-140" aria-label="GT rotation angle in degrees" />
+        <output id="gt-yaw-value" for="gt-yaw">-140.0°</output>
         <button type="button" id="gt-yaw-reset" class="viewer-btn">Restore GT angle</button>
-        <span class="gt-yaw-hint" id="gt-yaw-hint">Adjusts only the GT mesh orientation, not the shared camera or the source GLB.</span>
+        <button type="button" id="gt-yaw-share" class="viewer-btn">Copy calibration link</button>
+        <span class="gt-yaw-hint" id="gt-yaw-hint">Changes only the displayed GT mesh. Calibrations are saved in this browser; shared links can reproduce an angle elsewhere.</span>
+        <span id="gt-yaw-feedback" role="status" aria-live="polite"></span>
       </div>
       <div class="viewer-grid">
         <article class="viewer-card">
@@ -462,8 +475,8 @@
         </article>
       </div>
       <p class="viewer-footnote">
-        GT has an additional yaw offset relative to the predicted meshes. Its default display correction is −140°,
-        estimated from a geometric alignment with Our Method; fine-tune this angle above if needed.
+        GT has an additional yaw offset relative to the predicted meshes. The initial estimate is −140°,
+        but this is not a guaranteed exact alignment. Adjust and save the angle above if necessary.
         The models were simplified and normalized separately for web visualization.
         Quantitative evaluation must use the original meshes.
       </p>
@@ -505,6 +518,6 @@
       }
     }
   </script>
-  <script type="module" src="assets/mesh-comparison.js"></script>
+  <script type="module" src="assets/mesh-comparison.js?v=2"></script>
 </body>
 </html>
