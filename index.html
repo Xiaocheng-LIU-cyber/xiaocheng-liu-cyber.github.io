@@ -192,6 +192,16 @@
     .viewer-btn:focus-visible { outline:3px solid #93c5fd; outline-offset:2px; }
     .viewer-btn[aria-pressed="true"] { background:var(--accent-soft); border-color:var(--accent); color:var(--accent-dark); }
     .viewer-guide { color:var(--muted); font-size:13px; margin:0 0 17px; }
+    .gt-yaw-controls {
+      display:flex; align-items:center; flex-wrap:wrap; gap:10px 14px;
+      padding:13px 15px; margin:0 0 18px; border:1px solid var(--line);
+      border-radius:11px; background:var(--surface-soft);
+    }
+    .gt-yaw-controls label { color:var(--text); font-size:13px; font-weight:750; }
+    .gt-yaw-controls input[type="range"] { flex:1 1 240px; min-width:120px; accent-color:var(--accent); cursor:pointer; }
+    .gt-yaw-controls output { min-width:54px; text-align:right; color:var(--accent-dark); font-size:14px; font-weight:800; font-variant-numeric:tabular-nums; }
+    .gt-yaw-controls .viewer-btn { padding:6px 10px; }
+    .gt-yaw-hint { width:100%; color:var(--muted); font-size:12px; }
     .viewer-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
     .viewer-card { min-width:0; overflow:hidden; background:#fff; border:1px solid var(--line); border-radius:14px; }
     .viewer-label { padding:12px; border-bottom:1px solid var(--line); text-align:center; font-weight:750; font-size:15px; }
@@ -403,6 +413,13 @@
         Drag to rotate · Scroll/pinch to zoom · All four cameras remain synchronized ·
         Clay uses identical materials and studio lighting; Normals colors each surface by its local normal direction.
       </p>
+      <div class="gt-yaw-controls" role="group" aria-label="Ground Truth alignment">
+        <label for="gt-yaw">GT orientation correction</label>
+        <input id="gt-yaw" type="range" min="-180" max="180" step="1" value="-140" aria-describedby="gt-yaw-hint" />
+        <output id="gt-yaw-value" for="gt-yaw">-140°</output>
+        <button type="button" id="gt-yaw-reset" class="viewer-btn">Restore GT angle</button>
+        <span class="gt-yaw-hint" id="gt-yaw-hint">Adjusts only the GT mesh orientation, not the shared camera or the source GLB.</span>
+      </div>
       <div class="viewer-grid">
         <article class="viewer-card">
           <div class="viewer-label">Ground Truth</div>
@@ -445,8 +462,8 @@
         </article>
       </div>
       <p class="viewer-footnote">
-        GT faces +X in its original coordinates, whereas the other meshes face +Z;
-        this viewer rotates GT around the vertical (Y) axis by −90° for display only.
+        GT has an additional yaw offset relative to the predicted meshes. Its default display correction is −140°,
+        estimated from a geometric alignment with Our Method; fine-tune this angle above if needed.
         The models were simplified and normalized separately for web visualization.
         Quantitative evaluation must use the original meshes.
       </p>
