@@ -11,12 +11,6 @@ const rotateButton = document.getElementById("rotate-toggle");
 const resetButton = document.getElementById("camera-reset");
 const clayButton = document.getElementById("material-clay");
 const normalsButton = document.getElementById("material-normals");
-const gtYawInput = document.getElementById("gt-yaw");
-const gtYawValue = document.getElementById("gt-yaw-value");
-const gtYawReset = document.getElementById("gt-yaw-reset");
-const gtYawNumber = document.getElementById("gt-yaw-number");
-const gtYawShare = document.getElementById("gt-yaw-share");
-const gtYawFeedback = document.getElementById("gt-yaw-feedback");
 
 const target = new THREE.Vector3(0, 0, 0);
 const initialOrbit = { theta: 0, phi: Math.PI / 2, radius: 4.3 };
@@ -33,7 +27,7 @@ const normals = new THREE.MeshNormalMaterial({ side: THREE.DoubleSide });
 const viewers = [];
 const loader = new GLTFLoader();
 
-const DEFAULT_GT_YAW = -140; // Estimated initialization; manually adjustable.
+const DEFAULT_GT_YAW = -140; // Display-only fallback; existing saved calibration is retained.
 const GT_YAW_STORAGE_KEY = "xiaocheng-3d-gt-yaw-v1";
 
 function parseYaw(value) {
@@ -54,8 +48,7 @@ function initialGtYaw() {
   return DEFAULT_GT_YAW;
 }
 
-let gtYaw = initialGtYaw();
-let gtMeshRoot = null;
+const gtYaw = initialGtYaw();
 let activeMaterial = clay;
 let synchronizing = false;
 let renderQueued = false;
@@ -109,32 +102,6 @@ function rotateFrame(now) {
   }
   previousTime = now;
   animationFrame = requestAnimationFrame(rotateFrame);
-}
-
-function setGtYaw(value, {persist = true} = {}) {
-  const parsed = parseYaw(value);
-  if (parsed === null) return false;
-  gtYaw = parsed;
-  gtYawInput.value = String(gtYaw);
-  gtYawValue.textContent = gtYaw.toFixed(1) + "°";
-  if (gtYawNumber) gtYawNumber.value = String(gtYaw);
-  if (gtYawFeedback) gtYawFeedback.textContent = "";
-  if (gtMeshRoot) {
-    gtMeshRoot.rotation.y = THREE.MathUtils.degToRad(gtYaw);
-    gtMeshRoot.updateMatrixWorld(true);
-  }
-  if (persist) {
-    try { window.localStorage.setItem(GT_YAW_STORAGE_KEY, String(gtYaw)); }
-    catch (_) { /* Storage is optional. */ }
-    // If the page was opened using a calibration URL, keep that URL accurate.
-    const url = new URL(window.location.href);
-    if (url.searchParams.has("gtYaw")) {
-      url.searchParams.set("gtYaw", String(gtYaw));
-      window.history.replaceState(null, "", url.toString());
-    }
-  }
-  scheduleRender();
-  return true;
 }
 
 function changeMaterial(which) {
@@ -248,7 +215,6 @@ for (const surface of entries) {
       // Reference mesh differs by an additional yaw beyond the nominal +X / +Z
       // axis difference. The default -140° was estimated by fitting GT to Ours.
       if (canvas.dataset.model === "gt") {
-        gtMeshRoot = root;
         root.rotation.y = THREE.MathUtils.degToRad(gtYaw);
       }
       root.traverse((child) => {
@@ -303,39 +269,6 @@ rotateButton.addEventListener("click", () => {
     animationFrame = requestAnimationFrame(rotateFrame);
   }
 });
-
-gtYawInput.addEventListener("input", () => setGtYaw(gtYawInput.value));
-if (gtYawNumber) {
-  gtYawNumber.addEventListener("change", () => {
-    if (!setGtYaw(gtYawNumber.value)) gtYawNumber.value = String(gtYaw);
-  });
-}
-gtYawReset.addEventListener("click", () => {
-  try { window.localStorage.removeItem(GT_YAW_STORAGE_KEY); }
-  catch (_) { /* Storage is optional. */ }
-  const url = new URL(window.location.href);
-  if (url.searchParams.has("gtYaw")) {
-    url.searchParams.delete("gtYaw");
-    window.history.replaceState(null, "", url.toString());
-  }
-  setGtYaw(DEFAULT_GT_YAW, {persist: false});
-});
-
-if (gtYawShare) {
-  gtYawShare.addEventListener("click", async () => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("gtYaw", String(gtYaw));
-    url.hash = "comparison";
-    try {
-      await navigator.clipboard.writeText(url.toString());
-      gtYawFeedback.textContent = "Calibration link copied.";
-    } catch (_) {
-      window.prompt("Copy the calibration link:", url.toString());
-      gtYawFeedback.textContent = "Calibration link ready to copy.";
-    }
-  });
-}
-setGtYaw(gtYaw, {persist: false});
 
 clayButton.addEventListener("click", () => changeMaterial("clay"));
 normalsButton.addEventListener("click", () => changeMaterial("normals"));
