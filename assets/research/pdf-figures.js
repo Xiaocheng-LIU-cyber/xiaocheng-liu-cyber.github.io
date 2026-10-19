@@ -13,7 +13,7 @@ if (canvases.length) {
   } catch (error) {
     console.warn("Could not load the PDF renderer:", error);
     for (const canvas of canvases) {
-      showError(canvas, "PDF preview unavailable. Open the original PDF below.");
+      showError(canvas, "PDF preview unavailable. Please refresh or try another browser.");
     }
   }
 
@@ -44,7 +44,7 @@ async function setupPdfCanvas(canvas, pdfjs) {
     page = await documentRef.getPage(1);
   } catch (error) {
     console.warn("Could not load PDF", url, error);
-    showError(canvas, "Unable to render this PDF. Open the original PDF below.");
+    showError(canvas, "Unable to render this diagram. Please refresh the page.");
     return;
   }
 
@@ -84,7 +84,7 @@ async function setupPdfCanvas(canvas, pdfjs) {
     } catch (error) {
       if (error?.name !== "RenderingCancelledException") {
         console.warn("PDF rendering failed", url, error);
-        showError(canvas, "PDF preview unavailable. Open the original PDF below.");
+        showError(canvas, "PDF preview unavailable. Please refresh or try another browser.");
       }
     } finally {
       task = null;
