@@ -200,6 +200,25 @@
       .refinement-steps { grid-template-columns:1fr; }
     }
 
+
+    /* Resume-first hierarchy and unified graduate research block */
+    .hero { padding-top:60px; padding-bottom:35px; }
+    main > section { margin-top:18px; }
+    .research-component { margin-top:30px; padding-top:28px; border-top:1px solid var(--line); scroll-margin-top:90px; }
+    .research-component .section-heading h3 { margin:0; font-size:23px; }
+    .research-component > .section-heading { margin-bottom:18px; }
+    .method-subheading { font-size:19px; }
+    .research-component h4.method-subheading { margin:26px 0 14px; }
+    .cv-research-link { display:inline-block; font-weight:700; font-size:14px; }
+    .cv-experience-list { padding-left:20px; margin:12px 0 0; color:var(--muted); }
+    .cv-experience-list li { margin:5px 0; }
+    .method-figure figcaption { padding-bottom:12px; }
+    @media(max-width:850px) {
+      .hero { padding-top:48px; padding-bottom:25px; }
+      .research-component { margin-top:22px; padding-top:21px; }
+      #research > .section-heading { flex-wrap:wrap; }
+    }
+
     .timeline { position: relative; margin-top: 4px; }
     .timeline::before { content:""; position:absolute; left: 110px; top: 12px; bottom: 12px; width: 1px; background: var(--line); }
     .timeline-item { display: grid; grid-template-columns: 88px 1fr; gap: 42px; position: relative; padding: 0 0 30px; }
@@ -272,12 +291,11 @@
     <div class="container nav-inner">
       <a class="brand" href="#top">LIU Xiaocheng</a>
       <nav class="nav-links" aria-label="Primary navigation">
-        <a href="#research">Research</a>
-        <a href="#method">Method</a>
-        <a href="#experience">Experience</a>
         <a href="#education">Education</a>
-        <a href="#projects">Projects</a>
-        <a href="#comparison">3D Comparison</a>
+        <a href="#research">Master’s Research</a>
+        <a href="#method">Method</a>
+        <a href="#comparison">3D Results</a>
+        <a href="#experience">Experience</a>
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -289,17 +307,17 @@
       <div>
         <div class="eyebrow">3D Reconstruction · Computer Vision · Generative AI</div>
         <h1>LIU Xiaocheng <span class="chinese-name">刘笑成</span></h1>
-        <p class="hero-title">Master's Student in Information Science at JAIST</p>
+        <p class="hero-title">3D Reconstruction · Computer Vision · Generative AI</p>
         <p class="hero-description">
           My work focuses on high-resolution 3D clothed human reconstruction, sparse 3D representations,
           triplane-based feature learning, and differentiable mesh extraction.
         </p>
         <div class="hero-focus">
-          <strong>Current research:</strong> developing a triplane-guided sparse reconstruction framework that combines
+          <strong>Master’s research:</strong> studying a triplane-guided sparse reconstruction framework that combines
           coarse-to-fine sparse voxel processing with FlexiCubes for high-resolution clothed-human mesh reconstruction.
         </div>
         <div class="hero-actions">
-          <a class="button button-primary" href="#research">View Research</a>
+          <a class="button button-primary" href="#research">Master’s Research</a>
           <a class="button button-secondary" href="mailto:xcliu967@gmail.com">Email</a>
           <a class="button button-secondary" href="https://github.com/Xiaocheng-LIU-cyber" target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
@@ -312,15 +330,43 @@
   </div>
 
   <main class="container">
+
+    <section id="education">
+      <div class="section-heading">
+        <h2>Education</h2>
+        <span class="section-kicker">Academic Background</span>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">2024.04 – 2026.10</div>
+          <div class="timeline-card">
+            <h3>Japan Advanced Institute of Science and Technology (JAIST)</h3>
+            <div class="role">Master's Program · Information Science</div>
+            <div class="place">Nomi, Ishikawa, Japan</div>
+            <p>Research focus: high-resolution 3D clothed-human reconstruction. <a class="cv-research-link" href="#research">Master’s research details →</a></p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2014.09 – 2018.06</div>
+          <div class="timeline-card">
+            <h3>Hebei University of Technology</h3>
+            <div class="role">Metallic Materials Engineering</div>
+            <div class="place">School of Materials Science and Engineering</div>
+            <p>Undergraduate study in metallic materials and materials science and engineering.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="research">
       <div class="section-heading">
-        <h2>Research</h2>
-        <span class="section-kicker">Current Focus</span>
+        <h2>Master’s Research</h2>
+        <span class="section-kicker">JAIST · Information Science · 2024.04–2026.10</span>
       </div>
       <div class="research-feature">
         <h3>Triplane-Guided Sparse FlexiCubes for High-Resolution 3D Clothed Human Reconstruction</h3>
         <p>
-          My current research investigates how triplane features and sparse voxel hierarchies can be combined with
+          My master's research investigated how triplane features and sparse voxel hierarchies can be combined with
           FlexiCubes to reconstruct detailed clothed-human meshes without the cost of processing a fully dense
           high-resolution 3D grid.
         </p>
@@ -335,12 +381,10 @@
           <span class="tag">Neural Rendering</span><span class="tag">Generative AI</span>
         </div>
       </div>
-    </section>
 
-
-    <section id="method">
+    <div id="method" class="research-component">
       <div class="section-heading">
-        <h2>Methodology</h2>
+        <h3>Methodology</h3>
         <span class="section-kicker">Pipeline · RoI Features · Sparse Refinement</span>
       </div>
       <p class="method-intro">
@@ -349,7 +393,7 @@
         It uses a dense low-resolution stage for global shape, followed by surface-focused sparse refinement.
       </p>
 
-      <h3 class="method-subheading">1. Reconstruction Pipeline</h3>
+      <h4 class="method-subheading">1. Reconstruction Pipeline</h4>
       <figure class="method-figure">
         <div class="pdf-figure-frame">
           <canvas class="pdf-figure-canvas" width="942" height="591"
@@ -358,7 +402,7 @@
           <div class="pdf-figure-status" role="status">Rendering original PDF diagram…</div>
         </div>
         <figcaption>Original method overview showing single-image conditioning, triplane features, coarse reconstruction, and sparse high-resolution mesh extraction.</figcaption>
-        <div class="method-pdf-fallback"><a href="assets/research/method_overview.pdf" target="_blank" rel="noopener noreferrer">View original PDF</a></div>
+        
       </figure>
       <div class="method-description" style="margin-top:17px;">
         <p>
@@ -369,7 +413,7 @@
         </p>
       </div>
 
-      <h3 class="method-subheading">2. Triplane RoI Feature Sampling</h3>
+      <h4 class="method-subheading">2. Triplane RoI Feature Sampling</h4>
       <div class="method-detail-grid">
         <figure class="method-figure roi-figure">
           <div class="pdf-figure-frame">
@@ -379,7 +423,7 @@
             <div class="pdf-figure-status" role="status">Rendering original PDF diagram…</div>
           </div>
           <figcaption>Original RoI sampling diagram: a 3D voxel projects to local regions on the orthogonal feature planes.</figcaption>
-          <div class="method-pdf-fallback"><a href="assets/research/roi_sampling.pdf" target="_blank" rel="noopener noreferrer">View original PDF</a></div>
+          
         </figure>
         <div class="method-description">
           <p>
@@ -404,7 +448,7 @@
         </div>
       </div>
 
-      <h3 class="method-subheading">3. Coarse-to-Fine Sparse Voxel Upsampling</h3>
+      <h4 class="method-subheading">3. Coarse-to-Fine Sparse Voxel Upsampling</h4>
       <p class="method-intro">
         Here, “upsampling” means subdividing the spatial voxel grid and refining its active
         support near the reconstructed surface. It is distinct from simply enlarging a 2D triplane image
@@ -432,85 +476,11 @@
         Maintaining adequate active-voxel neighborhoods is important for FlexiCubes,
         and aggressive pruning can remove regions needed for mesh extraction.
       </p>
-    </section>
+    </div>
 
-        <section id="experience">
+    <div id="comparison" class="research-component">
       <div class="section-heading">
-        <h2>Experience</h2>
-        <span class="section-kicker">Research & Industry</span>
-      </div>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-date">2024 – 2026</div>
-          <div class="timeline-card">
-            <h3>Graduate Research</h3>
-            <div class="role">3D Reconstruction & Computer Vision</div>
-            <div class="place">Japan Advanced Institute of Science and Technology (JAIST)</div>
-            <p>Research on high-resolution clothed-human reconstruction using triplane features, sparse 3D structures, and differentiable mesh extraction.</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2024.10 – 2024.12</div>
-          <div class="timeline-card">
-            <h3>AI / Computer Vision Internship</h3>
-            <div class="role">Industrial Image Data Augmentation</div>
-            <div class="place">Auto Inspect Co., Ltd.</div>
-            <p>Investigated generative-AI-based data augmentation with StyleGAN2 and Stable Diffusion for industrial defect detection under limited-data conditions.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="education">
-      <div class="section-heading">
-        <h2>Education</h2>
-        <span class="section-kicker">Academic Background</span>
-      </div>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-date">2024.04 – 2026.10</div>
-          <div class="timeline-card">
-            <h3>Japan Advanced Institute of Science and Technology (JAIST)</h3>
-            <div class="role">Master's Program · Information Science</div>
-            <div class="place">Nomi, Ishikawa, Japan</div>
-            <p>Research focus: 3D clothed-human reconstruction, sparse 3D representations, triplane features, and differentiable meshing.</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2014.09 – 2018.06</div>
-          <div class="timeline-card">
-            <h3>Hebei University of Technology</h3>
-            <div class="role">Metallic Materials Engineering</div>
-            <div class="place">School of Materials Science and Engineering</div>
-            <p>Undergraduate study in metallic materials and materials science and engineering.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects">
-      <div class="section-heading">
-        <h2>Selected Projects</h2>
-        <span class="section-kicker">Research & Development</span>
-      </div>
-      <div class="projects-grid">
-        <article class="project-card">
-          <h3>Triplane-Guided Sparse FlexiCubes</h3>
-          <p>A high-resolution 3D reconstruction project combining triplane-guided feature sampling, sparse voxel processing, hierarchical geometry learning, and FlexiCubes-based mesh extraction.</p>
-          <div class="project-meta">Triplane · Sparse Voxel · FlexiCubes · 3D Reconstruction</div>
-        </article>
-        <article class="project-card">
-          <h3>Industrial Image Data Augmentation</h3>
-          <p>A generative-AI project for improving industrial defect-detection training under limited-data conditions using image synthesis and augmentation.</p>
-          <div class="project-meta">Stable Diffusion · StyleGAN2 · Defect Detection · PyTorch</div>
-        </article>
-      </div>
-    </section>
-
-
-    <section id="comparison">
-      <div class="section-heading">
-        <h2>Interactive 3D Reconstruction Comparison</h2>
+        <h3>Interactive 3D Reconstruction Comparison</h3>
         <span class="section-kicker">Ground Truth &amp; Baselines</span>
       </div>
       <p class="section-intro">
@@ -583,9 +553,32 @@
         The meshes were simplified and normalized separately for web visualization;
         quantitative evaluation should use the original mesh files.
       </p>
+    </div>
     </section>
 
-        <section id="skills">
+    <section id="experience">
+      <div class="section-heading">
+        <h2>Industry Experience</h2>
+        <span class="section-kicker">Internship</span>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">2024.10 – 2024.12</div>
+          <div class="timeline-card">
+            <h3>AI / Computer Vision Internship</h3>
+            <div class="role">Industrial Defect Detection · Generative AI Augmentation</div>
+            <div class="place">Auto Inspect Co., Ltd.</div>
+            <ul class="cv-experience-list">
+              <li>Developed a limited-data industrial defect image augmentation workflow using Stable Diffusion v1.5.</li>
+              <li>Evaluated synthetic data in downstream defect detection experiments and verified improvement compared with the small-data baseline in this internship setting.</li>
+              <li>Explored StyleGAN2 initially, but did not use it in the final augmentation workflow.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
       <div class="section-heading">
         <h2>Technical Skills</h2>
         <span class="section-kicker">Stack</span>
@@ -609,6 +602,7 @@
         <span><strong>Location</strong>Nomi, Ishikawa, Japan</span>
       </div>
     </section>
+
   </main>
 
   <footer class="container">© 2026 LIU Xiaocheng · Hosted on GitHub Pages</footer>
