@@ -166,14 +166,17 @@
 
     /* Research methodology: responsive figures and sparse refinement stages */
     .method-intro { color:#526174; max-width:940px; margin:-5px 0 22px; font-size:15px; line-height:1.8; }
-    .method-figure { margin:0; padding:15px; border:1px solid var(--line); border-radius:15px; background:#fbfdff; }
-    .method-figure figcaption { padding:11px 5px 0; color:var(--muted); font-size:12px; line-height:1.55; }
-    .method-pdf {
-      display:block; width:100%; border:0; border-radius:8px; background:#f1f5f9;
+    .method-figure { margin:0; padding:0; border:1px solid var(--line); border-radius:15px; background:#fff; overflow:hidden; }
+    .method-figure figcaption { padding:12px 16px 2px; color:var(--muted); font-size:12px; line-height:1.55; }
+    .pdf-figure-frame { position:relative; width:100%; background:#fff; }
+    .pdf-figure-canvas { display:block; width:100%; height:auto; background:#fff; }
+    .pdf-figure-status {
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+      padding:12px; color:var(--muted); background:#fff; font-size:13px; text-align:center;
     }
-    .method-pdf--overview { height: min(76vw, 790px); min-height:380px; }
-    .method-pdf--roi { height: min(60vw, 545px); min-height:360px; }
-    .method-pdf-fallback { padding:10px 5px 0; color:var(--muted); font-size:12px; }
+    .pdf-figure-status[hidden] { display:none !important; }
+    .pdf-figure-status--error { color:#b91c1c; }
+    .method-pdf-fallback { padding:6px 16px 13px; color:var(--muted); font-size:12px; }
     .method-pdf-fallback a { font-weight:650; }
 
     .method-subheading { margin:30px 0 14px; font-size:22px; }
@@ -193,8 +196,7 @@
     @media (max-width:850px) {
       .method-detail-grid { grid-template-columns:1fr; }
       .roi-figure { max-width:480px; margin:0 auto; }
-      .method-pdf--overview { height: min(90vw, 660px); min-height:280px; }
-      .method-pdf--roi { height: min(96vw, 480px); min-height:290px; }
+
       .refinement-steps { grid-template-columns:1fr; }
     }
 
@@ -349,12 +351,14 @@
 
       <h3 class="method-subheading">1. Reconstruction Pipeline</h3>
       <figure class="method-figure">
-        <iframe class="method-pdf method-pdf--overview"
-          src="assets/research/method_overview.pdf#view=Fit&toolbar=0&navpanes=0"
-          title="Original reconstruction method overview PDF"
-          loading="lazy"></iframe>
+        <div class="pdf-figure-frame">
+          <canvas class="pdf-figure-canvas" width="942" height="591"
+            data-pdf-src="assets/research/method_overview.pdf"
+            role="img" aria-label="Original method overview diagram: orthographic RGB and CCM conditioning, triplane, dense coarse reconstruction and sparse high-resolution refinement."></canvas>
+          <div class="pdf-figure-status" role="status">Rendering original PDF diagram…</div>
+        </div>
         <figcaption>Original method overview showing single-image conditioning, triplane features, coarse reconstruction, and sparse high-resolution mesh extraction.</figcaption>
-        <div class="method-pdf-fallback">If the PDF is not displayed by your browser, <a href="assets/research/method_overview.pdf" target="_blank" rel="noopener noreferrer">open the original method overview PDF</a>.</div>
+        <div class="method-pdf-fallback"><a href="assets/research/method_overview.pdf" target="_blank" rel="noopener noreferrer">View original PDF</a></div>
       </figure>
       <div class="method-description" style="margin-top:17px;">
         <p>
@@ -368,12 +372,14 @@
       <h3 class="method-subheading">2. Triplane RoI Feature Sampling</h3>
       <div class="method-detail-grid">
         <figure class="method-figure roi-figure">
-          <iframe class="method-pdf method-pdf--roi"
-            src="assets/research/roi_sampling.pdf#view=Fit&toolbar=0&navpanes=0"
-            title="Original Triplane RoI sampling diagram PDF"
-            loading="lazy"></iframe>
+          <div class="pdf-figure-frame">
+            <canvas class="pdf-figure-canvas" width="405" height="405"
+              data-pdf-src="assets/research/roi_sampling.pdf"
+              role="img" aria-label="Original RoI diagram showing voxel projection to three orthogonal triplane feature maps."></canvas>
+            <div class="pdf-figure-status" role="status">Rendering original PDF diagram…</div>
+          </div>
           <figcaption>Original RoI sampling diagram: a 3D voxel projects to local regions on the orthogonal feature planes.</figcaption>
-          <div class="method-pdf-fallback">If the PDF is not displayed by your browser, <a href="assets/research/roi_sampling.pdf" target="_blank" rel="noopener noreferrer">open the original RoI sampling PDF</a>.</div>
+          <div class="method-pdf-fallback"><a href="assets/research/roi_sampling.pdf" target="_blank" rel="noopener noreferrer">View original PDF</a></div>
         </figure>
         <div class="method-description">
           <p>
@@ -616,5 +622,6 @@
     }
   </script>
   <script type="module" src="assets/mesh-comparison.js?v=3"></script>
+  <script type="module" src="assets/research/pdf-figures.js?v=1"></script>
 </body>
 </html>
