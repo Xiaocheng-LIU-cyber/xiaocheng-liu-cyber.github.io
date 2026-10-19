@@ -11,6 +11,9 @@ const rotateButton = document.getElementById("rotate-toggle");
 const resetButton = document.getElementById("camera-reset");
 const clayButton = document.getElementById("material-clay");
 const normalsButton = document.getElementById("material-normals");
+const gtYawInput = document.getElementById("gt-yaw");
+const gtYawValue = document.getElementById("gt-yaw-value");
+const gtYawReset = document.getElementById("gt-yaw-reset");
 
 const target = new THREE.Vector3(0, 0, 0);
 const initialOrbit = { theta: 0, phi: Math.PI / 2, radius: 4.3 };
@@ -27,6 +30,9 @@ const normals = new THREE.MeshNormalMaterial({ side: THREE.DoubleSide });
 const viewers = [];
 const loader = new GLTFLoader();
 
+const DEFAULT_GT_YAW = -140; // Geometric alignment to Our Method, not simply an axis conversion.
+let gtYaw = DEFAULT_GT_YAW;
+let gtMeshRoot = null;
 let activeMaterial = clay;
 let synchronizing = false;
 let renderQueued = false;
@@ -80,6 +86,19 @@ function rotateFrame(now) {
   }
   previousTime = now;
   animationFrame = requestAnimationFrame(rotateFrame);
+}
+
+function setGtYaw(value) {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return;
+  gtYaw = THREE.MathUtils.clamp(parsed, -180, 180);
+  gtYawInput.value = String(gtYaw);
+  gtYawValue.textContent = gtYaw + "°";
+  if (gtMeshRoot) {
+    gtMeshRoot.rotation.y = THREE.MathUtils.degToRad(gtYaw);
+    gtMeshRoot.updateMatrixWorld(true);
+  }
+  scheduleRender();
 }
 
 function changeMaterial(which) {
@@ -190,8 +209,12 @@ for (const surface of entries) {
     path,
     (asset) => {
       const root = asset.scene;
-      // GT is +X-forward. The other three meshes are +Z-forward.
-      if (canvas.dataset.model === "gt") root.rotation.y = -Math.PI / 2;
+      // Reference mesh differs by an additional yaw beyond the nominal +X / +Z
+      // axis difference. The default -140° was estimated by fitting GT to Ours.
+      if (canvas.dataset.model === "gt") {
+        gtMeshRoot = root;
+        root.rotation.y = THREE.MathUtils.degToRad(gtYaw);
+      }
       root.traverse((child) => {
         if (!child.isMesh) return;
         if (!child.geometry.getAttribute("normal")) {
@@ -244,6 +267,10 @@ rotateButton.addEventListener("click", () => {
     animationFrame = requestAnimationFrame(rotateFrame);
   }
 });
+
+gtYawInput.addEventListener("input", () => setGtYaw(gtYawInput.value));
+gtYawReset.addEventListener("click", () => setGtYaw(DEFAULT_GT_YAW));
+setGtYaw(DEFAULT_GT_YAW);
 
 clayButton.addEventListener("click", () => changeMaterial("clay"));
 normalsButton.addEventListener("click", () => changeMaterial("normals"));
