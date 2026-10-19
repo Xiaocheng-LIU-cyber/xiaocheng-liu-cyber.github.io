@@ -181,12 +181,22 @@
     .project-card p { margin: 0; color: var(--muted); }
     .project-meta { margin-top: 15px; color: #475569; font-size: 12px; font-weight: 700; }
 
-    .results-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
-    .result-card { overflow: hidden; margin: 0; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
-    .result-card img { width: 100%; height: auto; }
-    .result-caption { padding: 13px 15px 15px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
-    .result-caption strong { display: block; color: var(--text); margin-bottom: 2px; }
 
+    /* Interactive, synchronized mesh comparison */
+    .viewer-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 14px; }
+    .viewer-btn { appearance:none; border:1px solid #cbd5e1; background:#fff; color:var(--text); border-radius:9px; padding:9px 15px; font:inherit; font-size:13px; font-weight:650; cursor:pointer; }
+    .viewer-btn:hover,.viewer-btn:focus-visible { border-color:var(--accent); color:var(--accent); }
+    .viewer-btn[aria-pressed="true"] { background:var(--accent-soft); border-color:var(--accent); color:var(--accent-dark); }
+    .viewer-guide { color:var(--muted); font-size:13px; margin:0 0 20px; }
+    .viewer-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+    .viewer-card { min-width:0; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#fff; }
+    .viewer-label { padding:12px 13px; border-bottom:1px solid var(--line); text-align:center; font-weight:750; font-size:15px; }
+    .viewer-model { display:block; width:100%; height:370px; background:radial-gradient(circle at 50% 38%,#fff,#f0f4f8 80%); --poster-color:transparent; }
+    .viewer-error { margin:0; padding:12px; color:#b91c1c; font-size:12px; text-align:center; }
+    .viewer-caption { color:var(--muted); font-size:12px; text-align:center; padding:9px 12px 12px; border-top:1px solid var(--line); }
+    .viewer-footnote { margin:16px 0 0; font-size:12px; color:var(--muted); }
+    @media (max-width:1050px) { .viewer-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .viewer-model {height:400px;} }
+    @media (max-width:600px) { .viewer-grid { grid-template-columns:1fr; } .viewer-model {height:390px;} }
     .skills-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 13px; }
     .skill-group { padding: 18px; border-radius: 13px; background: var(--surface-soft); }
     .skill-group h3 { margin: 0 0 7px; font-size: 15px; }
@@ -221,7 +231,7 @@
         <a href="#experience">Experience</a>
         <a href="#education">Education</a>
         <a href="#projects">Projects</a>
-        <a href="#results">Results</a>
+        <a href="#comparison">3D Comparison</a>
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -354,22 +364,48 @@
       </div>
     </section>
 
-    <section id="results">
+
+    <section id="comparison">
       <div class="section-heading">
-        <h2>Qualitative Results</h2>
-        <span class="section-kicker">3D Reconstruction</span>
+        <h2>Interactive 3D Reconstruction Comparison</h2>
+        <span class="section-kicker">Ground Truth &amp; Baselines</span>
       </div>
-      <p class="section-intro">Examples comparing Ground Truth, the proposed method, SIFU, and SiTH from multiple viewpoints.</p>
-      <div class="results-grid">
-        <figure class="result-card">
-          <a href="assets/reconstruction-compare-1.webp" target="_blank" rel="noopener noreferrer"><img src="assets/reconstruction-compare-1.webp" alt="Qualitative 3D reconstruction comparison example 1" loading="lazy" /></a>
-          <figcaption class="result-caption"><strong>Reconstruction Example 1</strong>Multi-view comparison of reconstructed clothed-human geometry.</figcaption>
-        </figure>
-        <figure class="result-card">
-          <a href="assets/reconstruction-compare-2.webp" target="_blank" rel="noopener noreferrer"><img src="assets/reconstruction-compare-2.webp" alt="Qualitative 3D reconstruction comparison example 2" loading="lazy" /></a>
-          <figcaption class="result-caption"><strong>Reconstruction Example 2</strong>Multi-view comparison on a second clothed-human sample.</figcaption>
-        </figure>
+      <p class="section-intro">
+        Compare the Ground Truth, our method, SIFU and SiTH on the same 3D sample.
+        Camera rotation and zoom are synchronized across all four models.
+      </p>
+      <div class="viewer-toolbar" role="group" aria-label="3D comparison controls">
+        <button id="rotate-toggle" type="button" class="viewer-btn" aria-pressed="false">Auto rotate</button>
+        <button id="camera-reset" type="button" class="viewer-btn">Reset view</button>
       </div>
+      <p class="viewer-guide">Drag any model to rotate all four. Use the mouse wheel or pinch to zoom in or out together.</p>
+      <div class="viewer-grid">
+        <article class="viewer-card">
+          <div class="viewer-label">Ground Truth</div>
+          <model-viewer class="viewer-model" src="assets/models/gt.glb" alt="Ground truth clothed-human 3D mesh" camera-controls camera-orbit="0deg 90deg 3.2m" camera-target="0m 0m 0m" min-camera-orbit="auto auto 1.2m" max-camera-orbit="auto auto 8m" environment-image="neutral" exposure="1.1" shadow-intensity="0.8" interaction-prompt="none" loading="eager"></model-viewer>
+          <p class="viewer-error" hidden>Failed to load the 3D model.</p>
+          <div class="viewer-caption">Reference mesh</div>
+        </article>
+        <article class="viewer-card">
+          <div class="viewer-label">Our Method</div>
+          <model-viewer class="viewer-model" src="assets/models/ours.glb" alt="Our method clothed-human 3D mesh" camera-controls camera-orbit="0deg 90deg 3.2m" camera-target="0m 0m 0m" min-camera-orbit="auto auto 1.2m" max-camera-orbit="auto auto 8m" environment-image="neutral" exposure="1.1" shadow-intensity="0.8" interaction-prompt="none" loading="eager"></model-viewer>
+          <p class="viewer-error" hidden>Failed to load the 3D model.</p>
+          <div class="viewer-caption">Triplane-Guided Sparse FlexiCubes</div>
+        </article>
+        <article class="viewer-card">
+          <div class="viewer-label">SIFU</div>
+          <model-viewer class="viewer-model" src="assets/models/sifu.glb" alt="SIFU clothed-human 3D mesh" camera-controls camera-orbit="0deg 90deg 3.2m" camera-target="0m 0m 0m" min-camera-orbit="auto auto 1.2m" max-camera-orbit="auto auto 8m" environment-image="neutral" exposure="1.1" shadow-intensity="0.8" interaction-prompt="none" loading="eager"></model-viewer>
+          <p class="viewer-error" hidden>Failed to load the 3D model.</p>
+          <div class="viewer-caption">Baseline reconstruction</div>
+        </article>
+        <article class="viewer-card">
+          <div class="viewer-label">SiTH</div>
+          <model-viewer class="viewer-model" src="assets/models/sith.glb" alt="SiTH clothed-human 3D mesh" camera-controls camera-orbit="0deg 90deg 3.2m" camera-target="0m 0m 0m" min-camera-orbit="auto auto 1.2m" max-camera-orbit="auto auto 8m" environment-image="neutral" exposure="1.1" shadow-intensity="0.8" interaction-prompt="none" loading="eager"></model-viewer>
+          <p class="viewer-error" hidden>Failed to load the 3D model.</p>
+          <div class="viewer-caption">Baseline reconstruction</div>
+        </article>
+      </div>
+      <p class="viewer-footnote">Meshes are simplified and normalized for web visualization; use the original meshes for quantitative evaluation.</p>
     </section>
 
     <section id="skills">
@@ -399,5 +435,85 @@
   </main>
 
   <footer class="container">© 2026 LIU Xiaocheng · Hosted on GitHub Pages</footer>
+
+  <script type="module" src="https://unpkg.com/@google/model-viewer@4.0.0/dist/model-viewer.min.js"></script>
+  <script>
+    (() => {
+      const models = [...document.querySelectorAll(".viewer-model")];
+      const spinButton = document.getElementById("rotate-toggle");
+      const resetButton = document.getElementById("camera-reset");
+      const defaults = {theta: 0, phi: Math.PI / 2, radius: 3.2, target: {x: 0, y: 0, z: 0}};
+      let camera = {...defaults, target: {...defaults.target}};
+      let rotating = false;
+      let frameId = 0;
+      let lastTime = null;
+
+      function applyCamera(exclude = null) {
+        const orbit = `${camera.theta}rad ${camera.phi}rad ${camera.radius}m`;
+        const target = `${camera.target.x}m ${camera.target.y}m ${camera.target.z}m`;
+        for (const model of models) {
+          if (model === exclude) continue;
+          model.cameraOrbit = orbit;
+          model.cameraTarget = target;
+        }
+      }
+
+      function stopRotation() {
+        rotating = false;
+        lastTime = null;
+        cancelAnimationFrame(frameId);
+        spinButton.setAttribute("aria-pressed", "false");
+        spinButton.textContent = "Auto rotate";
+      }
+
+      function spinFrame(time) {
+        if (!rotating) return;
+        if (lastTime !== null) camera.theta += (time - lastTime) * 0.00019;
+        lastTime = time;
+        applyCamera();
+        frameId = requestAnimationFrame(spinFrame);
+      }
+
+      spinButton.addEventListener("click", () => {
+        if (rotating) {
+          stopRotation();
+        } else {
+          rotating = true;
+          lastTime = null;
+          spinButton.setAttribute("aria-pressed", "true");
+          spinButton.textContent = "Pause rotation";
+          frameId = requestAnimationFrame(spinFrame);
+        }
+      });
+
+      resetButton.addEventListener("click", () => {
+        stopRotation();
+        camera = {...defaults, target: {...defaults.target}};
+        applyCamera();
+      });
+
+      for (const model of models) {
+        model.addEventListener("camera-change", (event) => {
+          if (event.detail?.source !== "user-interaction") return;
+          stopRotation();
+          const orbit = model.getCameraOrbit();
+          const target = model.getCameraTarget();
+          camera = {
+            theta: orbit.theta,
+            phi: orbit.phi,
+            radius: orbit.radius,
+            target: {x: target.x, y: target.y, z: target.z}
+          };
+          applyCamera(model);
+        });
+
+        model.addEventListener("error", () => {
+          const msg = model.parentElement.querySelector(".viewer-error");
+          if (msg) msg.hidden = false;
+        });
+      }
+    })();
+  </script>
+
 </body>
 </html>
