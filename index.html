@@ -192,25 +192,6 @@
     .viewer-btn:focus-visible { outline:3px solid #93c5fd; outline-offset:2px; }
     .viewer-btn[aria-pressed="true"] { background:var(--accent-soft); border-color:var(--accent); color:var(--accent-dark); }
     .viewer-guide { color:var(--muted); font-size:13px; margin:0 0 17px; }
-    .gt-yaw-controls {
-      display:flex; align-items:center; flex-wrap:wrap; gap:10px 14px;
-      padding:13px 15px; margin:0 0 18px; border:1px solid var(--line);
-      border-radius:11px; background:var(--surface-soft);
-    }
-    .gt-yaw-controls label { color:var(--text); font-size:13px; font-weight:750; }
-    .gt-yaw-controls input[type="range"] { flex:1 1 210px; min-width:120px; accent-color:var(--accent); cursor:pointer; }
-    .gt-yaw-controls input[type="number"] {
-      width:83px; padding:7px 8px; border:1px solid #cbd5e1; border-radius:8px;
-      color:var(--text); background:#fff; font:inherit; font-size:13px; font-variant-numeric:tabular-nums;
-    }
-    .gt-yaw-controls input[type="number"]:focus-visible, .gt-yaw-controls input[type="range"]:focus-visible {
-      outline:2px solid #93c5fd; outline-offset:2px;
-    }
-    .gt-yaw-controls #gt-yaw-feedback { width:100%; font-size:12px; font-weight:650; color:var(--accent-dark); }
-    .gt-yaw-controls #gt-yaw-feedback:empty { display:none; }
-    .gt-yaw-controls output { min-width:54px; text-align:right; color:var(--accent-dark); font-size:14px; font-weight:800; font-variant-numeric:tabular-nums; }
-    .gt-yaw-controls .viewer-btn { padding:6px 10px; }
-    .gt-yaw-hint { width:100%; color:var(--muted); font-size:12px; }
     .viewer-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
     .viewer-card { min-width:0; overflow:hidden; background:#fff; border:1px solid var(--line); border-radius:14px; }
     .viewer-label { padding:12px; border-bottom:1px solid var(--line); text-align:center; font-weight:750; font-size:15px; }
@@ -221,7 +202,6 @@
     .viewer-status[hidden],.viewer-error[hidden] { display:none !important; }
     .viewer-error { padding:12px 13px; text-align:center; color:#b91c1c; font-size:13px; margin:0; }
     .viewer-caption { border-top:1px solid var(--line); padding:10px 12px 12px; font-size:12px; color:var(--muted); text-align:center; }
-    .viewer-caption a { display:block; font-weight:650; margin-top:3px; }
     .viewer-footnote { margin:16px 0 0; line-height:1.6; font-size:12px; color:var(--muted); }
     @media(max-width:1050px) { .viewer-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
     @media(max-width:600px) { .viewer-grid { grid-template-columns:1fr; } .viewer-canvas { height:410px; } .viewer-presets { width:100%; } .viewer-presets .viewer-btn { flex:1; } }
@@ -422,17 +402,6 @@
         Drag to rotate · Scroll/pinch to zoom · All four cameras remain synchronized ·
         Clay uses identical materials and studio lighting; Normals colors each surface by its local normal direction.
       </p>
-      <div class="gt-yaw-controls" role="group" aria-label="Ground Truth alignment">
-        <label for="gt-yaw">GT orientation correction</label>
-        <input id="gt-yaw" type="range" min="-180" max="180" step="0.1" value="-140" aria-describedby="gt-yaw-hint" />
-        <label for="gt-yaw-number">Degrees</label>
-        <input id="gt-yaw-number" type="number" min="-180" max="180" step="0.1" value="-140" aria-label="GT rotation angle in degrees" />
-        <output id="gt-yaw-value" for="gt-yaw">-140.0°</output>
-        <button type="button" id="gt-yaw-reset" class="viewer-btn">Restore GT angle</button>
-        <button type="button" id="gt-yaw-share" class="viewer-btn">Copy calibration link</button>
-        <span class="gt-yaw-hint" id="gt-yaw-hint">Changes only the displayed GT mesh. Calibrations are saved in this browser; shared links can reproduce an angle elsewhere.</span>
-        <span id="gt-yaw-feedback" role="status" aria-live="polite"></span>
-      </div>
       <div class="viewer-grid">
         <article class="viewer-card">
           <div class="viewer-label">Ground Truth</div>
@@ -440,8 +409,8 @@
             <canvas class="viewer-canvas" data-model="gt" data-src="assets/models/gt.glb" aria-label="Ground Truth rotatable 3D mesh"></canvas>
             <div class="viewer-status" role="status">Loading 3D mesh…</div>
           </div>
-          <p class="viewer-error" hidden>Could not load the mesh. You can download the GLB file below.</p>
-          <div class="viewer-caption">Reference mesh<a href="assets/models/gt.glb" download>Download GLB</a></div>
+          <p class="viewer-error" hidden>Could not load the 3D mesh. Please try refreshing the page.</p>
+          <div class="viewer-caption">Reference mesh</div>
         </article>
 
         <article class="viewer-card">
@@ -450,8 +419,8 @@
             <canvas class="viewer-canvas" data-model="ours" data-src="assets/models/ours.glb" aria-label="Our Method rotatable 3D mesh"></canvas>
             <div class="viewer-status" role="status">Loading 3D mesh…</div>
           </div>
-          <p class="viewer-error" hidden>Could not load the mesh. You can download the GLB file below.</p>
-          <div class="viewer-caption">Triplane-Guided Sparse FlexiCubes<a href="assets/models/ours.glb" download>Download GLB</a></div>
+          <p class="viewer-error" hidden>Could not load the 3D mesh. Please try refreshing the page.</p>
+          <div class="viewer-caption">Triplane-Guided Sparse FlexiCubes</div>
         </article>
 
         <article class="viewer-card">
@@ -460,8 +429,8 @@
             <canvas class="viewer-canvas" data-model="sifu" data-src="assets/models/sifu.glb" aria-label="SIFU rotatable 3D mesh"></canvas>
             <div class="viewer-status" role="status">Loading 3D mesh…</div>
           </div>
-          <p class="viewer-error" hidden>Could not load the mesh. You can download the GLB file below.</p>
-          <div class="viewer-caption">Baseline reconstruction<a href="assets/models/sifu.glb" download>Download GLB</a></div>
+          <p class="viewer-error" hidden>Could not load the 3D mesh. Please try refreshing the page.</p>
+          <div class="viewer-caption">Baseline reconstruction</div>
         </article>
 
         <article class="viewer-card">
@@ -470,15 +439,14 @@
             <canvas class="viewer-canvas" data-model="sith" data-src="assets/models/sith.glb" aria-label="SiTH rotatable 3D mesh"></canvas>
             <div class="viewer-status" role="status">Loading 3D mesh…</div>
           </div>
-          <p class="viewer-error" hidden>Could not load the mesh. You can download the GLB file below.</p>
-          <div class="viewer-caption">Baseline reconstruction<a href="assets/models/sith.glb" download>Download GLB</a></div>
+          <p class="viewer-error" hidden>Could not load the 3D mesh. Please try refreshing the page.</p>
+          <div class="viewer-caption">Baseline reconstruction</div>
         </article>
       </div>
       <p class="viewer-footnote">
-        GT has an additional yaw offset relative to the predicted meshes. The initial estimate is −140°,
-        but this is not a guaranteed exact alignment. Adjust and save the angle above if necessary.
-        The models were simplified and normalized separately for web visualization.
-        Quantitative evaluation must use the original meshes.
+        GT is orientation-adjusted for display so that the four models can be viewed consistently.
+        The meshes were simplified and normalized separately for web visualization;
+        quantitative evaluation should use the original mesh files.
       </p>
     </section>
 
@@ -518,6 +486,6 @@
       }
     }
   </script>
-  <script type="module" src="assets/mesh-comparison.js?v=2"></script>
+  <script type="module" src="assets/mesh-comparison.js?v=3"></script>
 </body>
 </html>
