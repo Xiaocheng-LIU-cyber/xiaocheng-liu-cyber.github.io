@@ -167,10 +167,15 @@
     /* Research methodology: responsive figures and sparse refinement stages */
     .method-intro { color:#526174; max-width:940px; margin:-5px 0 22px; font-size:15px; line-height:1.8; }
     .method-figure { margin:0; padding:15px; border:1px solid var(--line); border-radius:15px; background:#fbfdff; }
-    .method-figure img { display:block; width:100%; height:auto; }
-    .method-figure figcaption { padding:10px 5px 0; color:var(--muted); font-size:12px; line-height:1.55; }
-    .method-overview-scroll { width:100%; overflow-x:auto; }
-    .method-overview-scroll img { min-width:840px; max-width:none; }
+    .method-figure figcaption { padding:11px 5px 0; color:var(--muted); font-size:12px; line-height:1.55; }
+    .method-pdf {
+      display:block; width:100%; border:0; border-radius:8px; background:#f1f5f9;
+    }
+    .method-pdf--overview { height: min(76vw, 790px); min-height:380px; }
+    .method-pdf--roi { height: min(60vw, 545px); min-height:360px; }
+    .method-pdf-fallback { padding:10px 5px 0; color:var(--muted); font-size:12px; }
+    .method-pdf-fallback a { font-weight:650; }
+
     .method-subheading { margin:30px 0 14px; font-size:22px; }
     .method-detail-grid { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:24px; align-items:center; }
     .roi-figure { max-width:580px; margin:0; }
@@ -188,6 +193,8 @@
     @media (max-width:850px) {
       .method-detail-grid { grid-template-columns:1fr; }
       .roi-figure { max-width:480px; margin:0 auto; }
+      .method-pdf--overview { height: min(90vw, 660px); min-height:280px; }
+      .method-pdf--roi { height: min(96vw, 480px); min-height:290px; }
       .refinement-steps { grid-template-columns:1fr; }
     }
 
@@ -342,12 +349,12 @@
 
       <h3 class="method-subheading">1. Reconstruction Pipeline</h3>
       <figure class="method-figure">
-        <div class="method-overview-scroll">
-          <img src="assets/research/method-overview.svg" width="1180" height="520"
-            alt="Pipeline: single RGB image, diffusion-generated orthographic RGB and CCMs, U-Net, triplane features, RoI sampling, 128-cubed dense field, coarse FlexiCubes mesh, and sparse voxel subdivision through 256-cubed and 512-cubed to the final mesh."
-            loading="lazy" decoding="async"/>
-        </div>
-        <figcaption>Pipeline schematic redrawn from the supplied method overview. The 256³ intermediate level is shown explicitly to clarify the hierarchical refinement between the 128³ and 512³ stages.</figcaption>
+        <iframe class="method-pdf method-pdf--overview"
+          src="assets/research/method_overview.pdf#view=Fit&toolbar=0&navpanes=0"
+          title="Original reconstruction method overview PDF"
+          loading="lazy"></iframe>
+        <figcaption>Original method overview showing single-image conditioning, triplane features, coarse reconstruction, and sparse high-resolution mesh extraction.</figcaption>
+        <div class="method-pdf-fallback">If the PDF is not displayed by your browser, <a href="assets/research/method_overview.pdf" target="_blank" rel="noopener noreferrer">open the original method overview PDF</a>.</div>
       </figure>
       <div class="method-description" style="margin-top:17px;">
         <p>
@@ -361,10 +368,12 @@
       <h3 class="method-subheading">2. Triplane RoI Feature Sampling</h3>
       <div class="method-detail-grid">
         <figure class="method-figure roi-figure">
-          <img src="assets/research/roi-sampling.svg" width="630" height="500"
-            alt="A three-dimensional voxel projects to a rectangular region of interest on each of three orthogonal triplane feature maps: XY, XZ, and YZ."
-            loading="lazy" decoding="async"/>
-          <figcaption>Schematic redrawn from the supplied RoI sampling illustration; dashed lines indicate voxel projections.</figcaption>
+          <iframe class="method-pdf method-pdf--roi"
+            src="assets/research/roi_sampling.pdf#view=Fit&toolbar=0&navpanes=0"
+            title="Original Triplane RoI sampling diagram PDF"
+            loading="lazy"></iframe>
+          <figcaption>Original RoI sampling diagram: a 3D voxel projects to local regions on the orthogonal feature planes.</figcaption>
+          <div class="method-pdf-fallback">If the PDF is not displayed by your browser, <a href="assets/research/roi_sampling.pdf" target="_blank" rel="noopener noreferrer">open the original RoI sampling PDF</a>.</div>
         </figure>
         <div class="method-description">
           <p>
