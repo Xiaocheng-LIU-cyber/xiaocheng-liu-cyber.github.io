@@ -197,6 +197,26 @@
     .viewer-footnote { margin:16px 0 0; font-size:12px; color:var(--muted); }
     @media (max-width:1050px) { .viewer-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .viewer-model {height:400px;} }
     @media (max-width:600px) { .viewer-grid { grid-template-columns:1fr; } .viewer-model {height:390px;} }
+
+    /* Viewer diagnostics and camera presets */
+    .viewer-presets { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .viewer-presets .viewer-btn { min-width:66px; }
+    .viewer-btn:focus-visible { outline:3px solid #93c5fd; outline-offset:2px; }
+    .viewer-surface { position:relative; }
+    .viewer-status {
+      position:absolute; inset:0; display:grid; place-items:center;
+      padding:14px; color:var(--muted); background:rgba(248,250,252,.85);
+      text-align:center; font-size:13px; pointer-events:none;
+    }
+    .viewer-status[hidden], .viewer-error[hidden] { display:none !important; }
+    .viewer-caption a { display:inline-block; margin-top:4px; font-weight:650; }
+    .viewer-footnote { line-height:1.6; }
+    @media (max-width:580px) {
+      .viewer-toolbar { gap:10px; }
+      .viewer-presets { width:100%; }
+      .viewer-presets .viewer-btn { flex:1; }
+    }
+
     .skills-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 13px; }
     .skill-group { padding: 18px; border-radius: 13px; background: var(--surface-soft); }
     .skill-group h3 { margin: 0 0 7px; font-size: 15px; }
@@ -371,44 +391,62 @@
         <span class="section-kicker">Ground Truth &amp; Baselines</span>
       </div>
       <p class="section-intro">
-        Compare the Ground Truth, our method, SIFU and SiTH on the same 3D sample.
-        Camera rotation and zoom are synchronized across all four models.
+        Compare Ground Truth, Our Method, SIFU, and SiTH using the same camera settings.
+        Drag or zoom any model to synchronize all four views.
       </p>
       <div class="viewer-toolbar" role="group" aria-label="3D comparison controls">
+        <div class="viewer-presets" role="group" aria-label="Quick camera viewpoints">
+          <button type="button" class="viewer-btn" data-view="front" aria-pressed="true">Front</button>
+          <button type="button" class="viewer-btn" data-view="right" aria-pressed="false">Right</button>
+          <button type="button" class="viewer-btn" data-view="back" aria-pressed="false">Back</button>
+          <button type="button" class="viewer-btn" data-view="left" aria-pressed="false">Left</button>
+        </div>
         <button id="rotate-toggle" type="button" class="viewer-btn" aria-pressed="false">Auto rotate</button>
         <button id="camera-reset" type="button" class="viewer-btn">Reset view</button>
       </div>
-      <p class="viewer-guide">Drag any model to rotate all four. Use the mouse wheel or pinch to zoom in or out together.</p>
+      <p class="viewer-guide">All views move together. Mouse: drag to rotate, scroll to zoom. Touch: swipe or pinch. The Ground Truth mesh has a display-only orientation adjustment.</p>
       <div class="viewer-grid">
         <article class="viewer-card">
           <div class="viewer-label">Ground Truth</div>
-          <model-viewer class="viewer-model" src="assets/models/gt.glb" alt="Ground truth clothed-human 3D mesh" camera-controls camera-orbit="0deg 90deg 3.2m" camera-target="0m 0m 0m" min-camera-orbit="auto auto 1.2m" max-camera-orbit="auto auto 8m" environment-image="neutral" exposure="1.1" shadow-intensity="0.8" interaction-prompt="none" loading="eager"></model-viewer>
-          <p class="viewer-error" hidden>Failed to load the 3D model.</p>
-          <div class="viewer-caption">Reference mesh</div>
+          <div class="viewer-surface">
+            <model-viewer class="viewer-model" src="assets/models/gt.glb" orientation="0deg 0deg -90deg" alt="Ground Truth 3D clothed-human mesh" camera-controls camera-orbit="0deg 90deg 4.2m" camera-target="0m 0m 0m" field-of-view="30deg" min-camera-orbit="auto auto 1.8m" max-camera-orbit="auto auto 9m" environment-image="neutral" exposure="1.1" shadow-intensity="0.8" interaction-prompt="none" loading="eager"></model-viewer>
+            <div class="viewer-status" role="status">Loading 3D model…</div>
+          </div>
+          <p class="viewer-error" hidden>3D model failed to load. The GLB file can still be opened separately.</p>
+          <div class="viewer-caption">Reference mesh <a href="assets/models/gt.glb" download>Download GLB</a></div>
         </article>
         <article class="viewer-card">
           <div class="viewer-label">Our Method</div>
-          <model-viewer class="viewer-model" src="assets/models/ours.glb" alt="Our method clothed-human 3D mesh" camera-controls camera-orbit="0deg 90deg 3.2m" camera-target="0m 0m 0m" min-camera-orbit="auto auto 1.2m" max-camera-orbit="auto auto 8m" environment-image="neutral" exposure="1.1" shadow-intensity="0.8" interaction-prompt="none" loading="eager"></model-viewer>
-          <p class="viewer-error" hidden>Failed to load the 3D model.</p>
-          <div class="viewer-caption">Triplane-Guided Sparse FlexiCubes</div>
+          <div class="viewer-surface">
+            <model-viewer class="viewer-model" src="assets/models/ours.glb" alt="Our Method 3D clothed-human mesh" camera-controls camera-orbit="0deg 90deg 4.2m" camera-target="0m 0m 0m" field-of-view="30deg" min-camera-orbit="auto auto 1.8m" max-camera-orbit="auto auto 9m" environment-image="neutral" exposure="1.1" shadow-intensity="0.8" interaction-prompt="none" loading="eager"></model-viewer>
+            <div class="viewer-status" role="status">Loading 3D model…</div>
+          </div>
+          <p class="viewer-error" hidden>3D model failed to load. The GLB file can still be opened separately.</p>
+          <div class="viewer-caption">Triplane-Guided Sparse FlexiCubes <a href="assets/models/ours.glb" download>Download GLB</a></div>
         </article>
         <article class="viewer-card">
           <div class="viewer-label">SIFU</div>
-          <model-viewer class="viewer-model" src="assets/models/sifu.glb" alt="SIFU clothed-human 3D mesh" camera-controls camera-orbit="0deg 90deg 3.2m" camera-target="0m 0m 0m" min-camera-orbit="auto auto 1.2m" max-camera-orbit="auto auto 8m" environment-image="neutral" exposure="1.1" shadow-intensity="0.8" interaction-prompt="none" loading="eager"></model-viewer>
-          <p class="viewer-error" hidden>Failed to load the 3D model.</p>
-          <div class="viewer-caption">Baseline reconstruction</div>
+          <div class="viewer-surface">
+            <model-viewer class="viewer-model" src="assets/models/sifu.glb" alt="SIFU 3D clothed-human mesh" camera-controls camera-orbit="0deg 90deg 4.2m" camera-target="0m 0m 0m" field-of-view="30deg" min-camera-orbit="auto auto 1.8m" max-camera-orbit="auto auto 9m" environment-image="neutral" exposure="1.1" shadow-intensity="0.8" interaction-prompt="none" loading="eager"></model-viewer>
+            <div class="viewer-status" role="status">Loading 3D model…</div>
+          </div>
+          <p class="viewer-error" hidden>3D model failed to load. The GLB file can still be opened separately.</p>
+          <div class="viewer-caption">Baseline reconstruction <a href="assets/models/sifu.glb" download>Download GLB</a></div>
         </article>
         <article class="viewer-card">
           <div class="viewer-label">SiTH</div>
-          <model-viewer class="viewer-model" src="assets/models/sith.glb" alt="SiTH clothed-human 3D mesh" camera-controls camera-orbit="0deg 90deg 3.2m" camera-target="0m 0m 0m" min-camera-orbit="auto auto 1.2m" max-camera-orbit="auto auto 8m" environment-image="neutral" exposure="1.1" shadow-intensity="0.8" interaction-prompt="none" loading="eager"></model-viewer>
-          <p class="viewer-error" hidden>Failed to load the 3D model.</p>
-          <div class="viewer-caption">Baseline reconstruction</div>
+          <div class="viewer-surface">
+            <model-viewer class="viewer-model" src="assets/models/sith.glb" alt="SiTH 3D clothed-human mesh" camera-controls camera-orbit="0deg 90deg 4.2m" camera-target="0m 0m 0m" field-of-view="30deg" min-camera-orbit="auto auto 1.8m" max-camera-orbit="auto auto 9m" environment-image="neutral" exposure="1.1" shadow-intensity="0.8" interaction-prompt="none" loading="eager"></model-viewer>
+            <div class="viewer-status" role="status">Loading 3D model…</div>
+          </div>
+          <p class="viewer-error" hidden>3D model failed to load. The GLB file can still be opened separately.</p>
+          <div class="viewer-caption">Baseline reconstruction <a href="assets/models/sith.glb" download>Download GLB</a></div>
         </article>
       </div>
-      <p class="viewer-footnote">Meshes are simplified and normalized for web visualization; use the original meshes for quantitative evaluation.</p>
+      <p class="viewer-footnote">The models were separately centered, normalized to a common display height, and simplified for this web demonstration. These visualizations do not replace quantitative evaluation on the original meshes.</p>
     </section>
 
-    <section id="skills">
+        <section id="skills">
       <div class="section-heading">
         <h2>Technical Skills</h2>
         <span class="section-kicker">Stack</span>
@@ -440,21 +478,32 @@
   <script>
     (() => {
       const models = [...document.querySelectorAll(".viewer-model")];
-      const spinButton = document.getElementById("rotate-toggle");
+      const rotateButton = document.getElementById("rotate-toggle");
       const resetButton = document.getElementById("camera-reset");
-      const defaults = {theta: 0, phi: Math.PI / 2, radius: 3.2, target: {x: 0, y: 0, z: 0}};
-      let camera = {...defaults, target: {...defaults.target}};
+      const viewButtons = [...document.querySelectorAll("[data-view]")];
+      const radius = 4.2;
+      const front = {theta: 0, phi: Math.PI / 2, radius, target: {x: 0, y: 0, z: 0}};
+      const azimuth = {front: 0, right: Math.PI / 2, back: Math.PI, left: -Math.PI / 2};
+      let camera = {...front, target: {...front.target}};
       let rotating = false;
       let frameId = 0;
       let lastTime = null;
+      let lastDraw = 0;
 
-      function applyCamera(exclude = null) {
-        const orbit = `${camera.theta}rad ${camera.phi}rad ${camera.radius}m`;
-        const target = `${camera.target.x}m ${camera.target.y}m ${camera.target.z}m`;
+      function synchronize(source = null, snap = false) {
+        const orbit = camera.theta + "rad " + camera.phi + "rad " + camera.radius + "m";
+        const target = camera.target.x + "m " + camera.target.y + "m " + camera.target.z + "m";
         for (const model of models) {
-          if (model === exclude) continue;
+          if (model === source) continue;
           model.cameraOrbit = orbit;
           model.cameraTarget = target;
+          if (snap && typeof model.jumpCameraToGoal === "function") model.jumpCameraToGoal();
+        }
+      }
+
+      function markPreset(name) {
+        for (const button of viewButtons) {
+          button.setAttribute("aria-pressed", String(button.dataset.view === name));
         }
       }
 
@@ -462,56 +511,94 @@
         rotating = false;
         lastTime = null;
         cancelAnimationFrame(frameId);
-        spinButton.setAttribute("aria-pressed", "false");
-        spinButton.textContent = "Auto rotate";
+        rotateButton.setAttribute("aria-pressed", "false");
+        rotateButton.textContent = "Auto rotate";
       }
 
-      function spinFrame(time) {
+      function rotate(time) {
         if (!rotating) return;
         if (lastTime !== null) camera.theta += (time - lastTime) * 0.00019;
         lastTime = time;
-        applyCamera();
-        frameId = requestAnimationFrame(spinFrame);
+        if (time - lastDraw >= 30) {
+          synchronize(null, true);
+          lastDraw = time;
+        }
+        frameId = requestAnimationFrame(rotate);
       }
 
-      spinButton.addEventListener("click", () => {
+      for (const button of viewButtons) {
+        button.addEventListener("click", () => {
+          stopRotation();
+          camera.theta = azimuth[button.dataset.view];
+          camera.phi = Math.PI / 2;
+          markPreset(button.dataset.view);
+          synchronize(null, false);
+        });
+      }
+
+      resetButton.addEventListener("click", () => {
+        stopRotation();
+        camera = {...front, target: {...front.target}};
+        markPreset("front");
+        synchronize(null, false);
+      });
+
+      rotateButton.addEventListener("click", () => {
         if (rotating) {
           stopRotation();
         } else {
           rotating = true;
           lastTime = null;
-          spinButton.setAttribute("aria-pressed", "true");
-          spinButton.textContent = "Pause rotation";
-          frameId = requestAnimationFrame(spinFrame);
+          lastDraw = 0;
+          markPreset(null);
+          rotateButton.setAttribute("aria-pressed", "true");
+          rotateButton.textContent = "Pause rotation";
+          frameId = requestAnimationFrame(rotate);
         }
       });
 
-      resetButton.addEventListener("click", () => {
-        stopRotation();
-        camera = {...defaults, target: {...defaults.target}};
-        applyCamera();
-      });
-
       for (const model of models) {
-        model.addEventListener("camera-change", (event) => {
-          if (event.detail?.source !== "user-interaction") return;
-          stopRotation();
-          const orbit = model.getCameraOrbit();
-          const target = model.getCameraTarget();
-          camera = {
-            theta: orbit.theta,
-            phi: orbit.phi,
-            radius: orbit.radius,
-            target: {x: target.x, y: target.y, z: target.z}
-          };
-          applyCamera(model);
+        const status = model.parentElement.querySelector(".viewer-status");
+        const errorMessage = model.closest(".viewer-card").querySelector(".viewer-error");
+
+        model.addEventListener("load", () => {
+          status.hidden = true;
+          synchronize(model, true);
         });
 
         model.addEventListener("error", () => {
-          const msg = model.parentElement.querySelector(".viewer-error");
-          if (msg) msg.hidden = false;
+          status.hidden = true;
+          errorMessage.hidden = false;
+        });
+
+        model.addEventListener("camera-change", event => {
+          if (event.detail?.source !== "user-interaction") return;
+          stopRotation();
+          markPreset(null);
+          const orbit = model.getCameraOrbit();
+          const target = model.getCameraTarget();
+          camera = {
+            theta: orbit.theta, phi: orbit.phi, radius: orbit.radius,
+            target: {x: target.x, y: target.y, z: target.z}
+          };
+          synchronize(model, true);
         });
       }
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) stopRotation();
+      });
+
+      // Explain CDN/WebGL failure instead of leaving a permanently empty panel.
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          if (customElements.get("model-viewer")) return;
+          for (const model of models) {
+            const status = model.parentElement.querySelector(".viewer-status");
+            status.textContent = "3D viewer unavailable. Check your connection or download the GLB below.";
+          }
+        }, 8000);
+      });
     })();
   </script>
 
