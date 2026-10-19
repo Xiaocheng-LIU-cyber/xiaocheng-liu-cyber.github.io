@@ -7,103 +7,207 @@
   <title>LIU Xiaocheng | Research & Experience</title>
   <style>
     :root {
-      --text:#1f2937;--muted:#627084;--line:#e2e8f0;--accent:#245bb5;
-      --surface:#fff;--soft:#f7f9fc;--max-width:1080px;
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --text: #172033;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --accent: #2563eb;
+      --accent-dark: #1d4ed8;
+      --accent-soft: #eff6ff;
+      --radius: 18px;
+      --shadow: 0 10px 28px rgba(15, 23, 42, .055);
+      --max-width: 1080px;
     }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;background:#fff;color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.7}
-    a{color:var(--accent);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .container{width:min(var(--max-width),calc(100% - 44px));margin:0 auto}
-    .navbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line)}
-    .nav-inner{display:flex;justify-content:space-between;align-items:center;min-height:58px;gap:20px}
-    .brand{font-weight:750;color:var(--text);font-size:15px;letter-spacing:-.01em;white-space:nowrap}
-    .nav-links{display:flex;gap:21px;flex-wrap:wrap}
-    .nav-links a{font-size:13px;color:#546174}
-    .nav-links a:hover{color:var(--accent)}
-    h1,h2,h3,h4,p,figure{margin-top:0}
-    h1,h2,h3,h4{line-height:1.35}
-    .hero{padding:50px 0 43px}
-    .hero-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:32px}
-    h1{font-size:clamp(36px,5vw,54px);letter-spacing:-.035em;margin:0 0 7px}
-    .chinese-name{font-size:.46em;color:#748196;font-weight:550;vertical-align:middle;letter-spacing:0;margin-left:12px}
-    .hero-affiliation{color:#3d4b5f;font-size:16px;font-weight:600;margin-bottom:12px}
-    .hero-summary{max-width:690px;color:var(--muted);font-size:15px;margin-bottom:13px}
-    .hero-links{display:flex;gap:18px;font-size:14px;font-weight:600}
-    .portrait{width:96px;height:96px;object-fit:cover;object-position:center 23%;border:1px solid var(--line);border-radius:9px}
-    main{padding-bottom:54px}
-    main>section{padding:32px 0;border-top:1px solid var(--line);scroll-margin-top:76px}
-    h2{font-size:25px;font-weight:750;letter-spacing:-.025em;margin-bottom:20px}
-    h3{font-size:19px;letter-spacing:-.015em;margin-bottom:10px}
-    h4{font-size:15px;font-weight:700;margin-bottom:9px}
-    .entries{display:grid;gap:20px}
-    .entry{display:grid;grid-template-columns:170px minmax(0,1fr);gap:24px}
-    .entry+.entry{padding-top:16px;border-top:1px solid #f0f2f5}
-    .entry-date{color:var(--muted);font-size:13px;font-weight:600;white-space:nowrap;padding-top:2px}
-    .entry-main h3{font-size:17px;margin:0 0 3px}
-    .entry-role{font-size:14px;color:#3b485b;margin-bottom:3px}
-    .entry-place{color:var(--muted);font-size:13px}
-    .research-title{font-size:clamp(19px,2vw,23px);font-weight:750;max-width:890px;letter-spacing:-.02em}
-    .research-summary{max-width:900px;color:#4a596d;margin-bottom:0;font-size:15px}
-    .research-block{margin-top:26px;padding-top:23px;border-top:1px solid var(--line);scroll-margin-top:76px}
-    .research-block h3{font-size:19px;margin-bottom:14px}
-    .method-item{margin-top:24px}
-    .method-item h4{font-size:16px;margin-bottom:11px}
-    .method-figure{margin:0}
-    .pdf-figure-frame{position:relative;width:100%;background:#fff}
-    .pdf-figure-canvas{display:block;width:100%;height:auto;background:#fff}
-    .pdf-figure-status{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:12px;color:var(--muted);font-size:13px;background:white;text-align:center}
-    .pdf-figure-status[hidden]{display:none!important}
-    .pdf-figure-status--error{color:#b91c1c}
-    .method-description{color:#4b596d;font-size:14px;line-height:1.75}
-    .method-description p{margin:0 0 12px}
-    .method-description p:last-child{margin-bottom:0}
-    .method-roi{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:26px;align-items:center}
-    .roi-figure{width:100%;max-width:470px;margin:0 auto}
-    .refinement-line{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:10px 0}
-    .refinement-stage{padding-left:14px;border-left:2px solid #c7d7ec}
-    .refinement-stage strong{display:block;font-size:18px;color:#285591;margin-bottom:4px}
-    .refinement-stage p{margin:0;color:#526174;font-size:13px;line-height:1.65}
-    .note{font-size:12px;line-height:1.65;color:var(--muted);margin:12px 0 0}
-    .viewer-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:9px 18px;margin-bottom:13px}
-    .viewer-presets,.viewer-materials{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
-    .viewer-toolbar-label{font-size:12px;color:var(--muted);margin-right:2px}
-    .viewer-btn{border:1px solid #d2dbe7;background:#fff;color:#445165;padding:6px 10px;border-radius:6px;font:inherit;font-size:12px;cursor:pointer}
-    .viewer-btn[aria-pressed="true"]{background:#eaf1fb;color:var(--accent);border-color:#9ebbe5}
-    .viewer-btn:hover,.viewer-btn:focus-visible{border-color:var(--accent)}
-    .viewer-guide{font-size:12px;color:var(--muted);margin:0 0 13px}
-    .viewer-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-    .viewer-card{min-width:0;border:1px solid var(--line);border-radius:8px;overflow:hidden}
-    .viewer-card h4{font-size:14px;text-align:center;margin:0;padding:8px 4px;border-bottom:1px solid var(--line)}
-    .viewer-surface{position:relative;background:#f2f5f9}
-    .viewer-canvas{display:block;width:100%;height:370px;touch-action:none;cursor:grab}
-    .viewer-canvas:active{cursor:grabbing}
-    .viewer-status{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:10px;background:#f2f5f9;font-size:12px;color:var(--muted);text-align:center;pointer-events:none}
-    .viewer-status[hidden],.viewer-error[hidden]{display:none!important}
-    .viewer-error{padding:9px;color:#b91c1c;font-size:12px;text-align:center}
-    .experience-points{padding-left:18px;margin:8px 0 0;color:#4a596d;font-size:14px}
-    .experience-points li{margin-bottom:5px}
-    .skills-line{color:#48576a;font-size:14px}
-    .contact-links{display:flex;gap:24px;flex-wrap:wrap;font-size:14px}
-    footer{border-top:1px solid var(--line);padding:20px 0 33px;text-align:center;font-size:12px;color:var(--muted)}
-    @media(max-width:980px){.viewer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media(max-width:740px){
-      .container{width:min(var(--max-width),calc(100% - 32px))}
-      .nav-inner{align-items:flex-start;flex-direction:column;gap:4px;padding:9px 0}
-      .nav-links{gap:14px}
-      .hero{padding:29px 0 27px}
-      .hero-inner{gap:13px;align-items:start}
-      .portrait{width:64px;height:64px}
-      main>section{padding:26px 0}
-      .entry{grid-template-columns:1fr;gap:2px}
-      .entry-date{padding:0}
-      .method-roi{grid-template-columns:1fr;gap:14px}
-      .refinement-line{grid-template-columns:1fr;gap:12px}
-      .viewer-grid{grid-template-columns:1fr}
-      .viewer-canvas{height:400px}
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.7;
     }
-    @media(max-width:420px){.chinese-name{display:block;margin:3px 0 0}.portrait{width:55px;height:55px}.nav-links{gap:9px}.nav-links a{font-size:12px}}
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    img { display: block; max-width: 100%; }
+    .container { width: min(var(--max-width), calc(100% - 40px)); margin: 0 auto; }
+
+    .navbar {
+      position: sticky; top: 0; z-index: 30;
+      border-bottom: 1px solid rgba(226, 232, 240, .9);
+      background: rgba(246, 248, 251, .93);
+      backdrop-filter: blur(14px);
+    }
+    .nav-inner {
+      min-height: 66px; display: flex; justify-content: space-between;
+      align-items: center; gap: 24px;
+    }
+    .brand { font-size: 15px; font-weight: 800; color: var(--text); letter-spacing: -.02em; white-space: nowrap; }
+    .nav-links { display: flex; flex-wrap: wrap; gap: 19px; font-size: 14px; font-weight: 650; }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--accent); text-decoration: none; }
+
+    h1, h2, h3, h4, p, figure { margin-top: 0; }
+    h1, h2, h3, h4 { line-height: 1.3; letter-spacing: -.025em; }
+    .hero { padding: 76px 0 44px; }
+    .hero-inner {
+      display: grid; grid-template-columns: minmax(0, 1fr) auto;
+      gap: 42px; align-items: center;
+    }
+    h1 { margin: 0 0 15px; font-size: clamp(44px, 6.2vw, 68px); }
+    .chinese-name {
+      margin-left: 12px; font-size: .46em; color: #8190a6;
+      font-weight: 600; vertical-align: middle; letter-spacing: .03em;
+    }
+    .hero-affiliation {
+      display: inline-block; margin: 0 0 16px; padding: 7px 12px;
+      border: 1px solid #bfdbfe; border-radius: 999px;
+      color: var(--accent-dark); background: var(--accent-soft);
+      font-size: 13px; font-weight: 700;
+    }
+    .hero-summary { max-width: 650px; margin: 0; color: #506077; font-size: 17px; line-height: 1.75; }
+    .portrait-card {
+      width: 182px; padding: 17px 15px 15px; margin: 0;
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 16px; box-shadow: var(--shadow);
+      display: flex; flex-direction: column; align-items: center; gap: 11px;
+    }
+    .portrait {
+      width: 116px; height: 116px; object-fit: cover;
+      object-position: center 23%; border-radius: 12px;
+      border: 1px solid var(--line);
+    }
+    .portrait-affiliation {
+      margin: 0; text-align: center; font-size: 12px; line-height: 1.5;
+      color: var(--muted); font-weight: 600; overflow-wrap: anywhere;
+    }
+
+    main { padding-bottom: 65px; }
+    main > section {
+      margin-top: 20px; padding: 38px;
+      scroll-margin-top: 88px; background: var(--surface);
+      border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    main > section > h2 {
+      margin-bottom: 24px; padding-bottom: 12px;
+      font-size: 28px; border-bottom: 1px solid var(--line);
+    }
+
+    .entries { display: grid; gap: 22px; }
+    .entry { display: grid; grid-template-columns: 164px minmax(0, 1fr); gap: 24px; }
+    .entry + .entry { padding-top: 21px; border-top: 1px solid var(--line); }
+    .entry-date { padding-top: 3px; color: var(--accent-dark); font-size: 13px; font-weight: 750; white-space: nowrap; }
+    .entry-main h3 { margin: 0 0 5px; font-size: 19px; }
+    .entry-role { margin: 0; color: #475569; font-size: 14px; font-weight: 550; }
+
+    .research-lead {
+      padding: 25px 28px; border: 1px solid #dbeafe;
+      border-radius: 16px; background: linear-gradient(135deg, #f7fbff, #fff 78%);
+    }
+    .research-title { max-width: 900px; font-size: clamp(20px, 2.25vw, 24px); margin: 0 0 12px; font-weight: 750; }
+    .research-summary { max-width: 900px; margin: 0; color: #526174; font-size: 15px; }
+    .research-block { padding-top: 28px; margin-top: 30px; border-top: 1px solid var(--line); scroll-margin-top: 88px; }
+    .research-block > h3 { margin: 0 0 16px; font-size: 23px; }
+    .method-item { margin-top: 26px; }
+    .method-item > h4 { margin: 0 0 15px; font-size: 18px; }
+
+    .method-figure {
+      margin: 0; overflow: hidden; border: 1px solid var(--line);
+      border-radius: 14px; background: #fff;
+    }
+    .pdf-figure-frame { position: relative; width: 100%; background: #fff; }
+    .pdf-figure-canvas { display: block; width: 100%; height: auto; background: #fff; }
+    .pdf-figure-status {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: #fff; color: var(--muted); text-align: center; padding: 12px; font-size: 13px;
+    }
+    .pdf-figure-status[hidden] { display: none !important; }
+    .pdf-figure-status--error { color: #b91c1c; }
+    .method-description { color: #526174; font-size: 15px; line-height: 1.8; }
+    .method-description p { margin: 13px 0 0; }
+    .method-roi {
+      display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+      align-items: center; gap: 25px;
+    }
+    .method-roi .method-description p:first-child { margin-top: 0; }
+    .roi-figure { width: 100%; max-width: 470px; margin: 0 auto; }
+    .refinement-line { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; margin: 12px 0; }
+    .refinement-stage {
+      padding: 19px 18px; border: 1px solid var(--line);
+      border-radius: 13px; background: var(--surface-soft);
+    }
+    .refinement-stage strong { display: block; margin-bottom: 7px; color: var(--accent-dark); font-size: 22px; }
+    .refinement-stage p { margin: 0; color: #526174; font-size: 13px; line-height: 1.65; }
+    .note { margin: 14px 0 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+
+    .viewer-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 17px; margin-bottom: 16px; }
+    .viewer-presets, .viewer-materials { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+    .viewer-toolbar-label { margin-right: 3px; color: var(--muted); font-size: 12px; font-weight: 650; }
+    .viewer-btn {
+      border: 1px solid #cbd5e1; background: #fff; color: #364457;
+      border-radius: 9px; padding: 8px 12px; font: inherit; font-size: 13px;
+      font-weight: 600; cursor: pointer;
+    }
+    .viewer-btn[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-dark); border-color: var(--accent); }
+    .viewer-btn:hover, .viewer-btn:focus-visible { border-color: var(--accent); color: var(--accent-dark); }
+    .viewer-btn:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+    .viewer-guide { margin: 0 0 17px; color: var(--muted); font-size: 13px; }
+    .viewer-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .viewer-card { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+    .viewer-card h4 {
+      margin: 0; padding: 13px 8px; border-bottom: 1px solid var(--line);
+      background: #fbfdff; font-size: 15px; text-align: center;
+    }
+    .viewer-surface { position: relative; background: #f2f5f9; }
+    .viewer-canvas { display: block; width: 100%; height: 375px; touch-action: none; cursor: grab; }
+    .viewer-canvas:active { cursor: grabbing; }
+    .viewer-status {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      padding: 12px; background: #f2f5f9; color: var(--muted); font-size: 12px; text-align: center; pointer-events: none;
+    }
+    .viewer-status[hidden], .viewer-error[hidden] { display: none !important; }
+    .viewer-error { padding: 12px; color: #b91c1c; font-size: 12px; text-align: center; }
+    .experience-points { padding-left: 20px; margin: 10px 0 0; color: #526174; font-size: 15px; }
+    .experience-points li { margin: 7px 0; }
+    .skills-line { margin: 0; padding: 17px 20px; border-radius: 12px; background: var(--surface-soft); color: #475569; font-size: 14px; }
+    .contact-links { display: flex; flex-wrap: wrap; gap: 14px 28px; font-size: 14px; font-weight: 600; }
+    footer { padding: 25px 0 40px; color: var(--muted); font-size: 13px; text-align: center; }
+
+    @media (max-width: 1020px) {
+      .viewer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 800px) {
+      .hero { padding: 54px 0 36px; }
+      .nav-inner { flex-wrap: wrap; padding: 12px 0; gap: 8px; }
+      .nav-links { gap: 14px; }
+      main > section { padding: 28px 23px; }
+      .method-roi { grid-template-columns: 1fr; }
+      .roi-figure { max-width: 480px; }
+      .refinement-line { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .container { width: calc(100% - 28px); }
+      .hero-inner { gap: 14px; align-items: start; }
+      .portrait-card { width: 135px; padding: 10px 8px 11px; }
+      .portrait { width: 84px; height: 84px; }
+      .portrait-affiliation { font-size: 10px; }
+      h1 { font-size: 35px; }
+      .chinese-name { display: block; margin: 7px 0 0; }
+      .hero-summary { font-size: 14px; }
+      .entry { grid-template-columns: 1fr; gap: 5px; }
+      .entry + .entry { padding-top: 17px; }
+      .viewer-grid { grid-template-columns: 1fr; }
+      .viewer-canvas { height: 410px; }
+      .viewer-presets { width: 100%; }
+      .viewer-presets .viewer-btn { flex: 1; }
+    }
+    @media (max-width: 380px) {
+      .portrait-card { width: 114px; }
+      .portrait { width: 70px; height: 70px; }
+      .portrait-affiliation { font-size: 9px; }
+      .nav-links a { font-size: 12px; }
+    }
   </style>
 </head>
 <body>
@@ -127,7 +231,10 @@
         <p class="hero-summary">My work spans 3D geometry, generative models, and applied computer vision.</p>
 
       </div>
-      <img class="portrait" src="assets/profile.webp" width="96" height="96" alt="Portrait of LIU Xiaocheng">
+      <aside class="portrait-card" aria-label="Photo and affiliation">
+        <img class="portrait" src="assets/profile.webp" width="116" height="116" alt="Portrait of LIU Xiaocheng">
+        <p class="portrait-affiliation">Japan Advanced Institute of Science and Technology (JAIST)</p>
+      </aside>
     </div>
   </div>
   <main class="container">
@@ -152,11 +259,13 @@
     </section>
     <section id="research">
       <h2>Master's Research</h2>
-      <h3 class="research-title">Triplane-Guided Sparse FlexiCubes for High-Resolution 3D Clothed Human Reconstruction</h3>
-      <p class="research-summary">
-        The approach combines triplane RoI features, hierarchical sparse voxels, and FlexiCubes
-        to reconstruct clothed-human geometry at high resolution without using a dense high-resolution voxel grid.
-      </p>
+      <div class="research-lead">
+        <h3 class="research-title">Triplane-Guided Sparse FlexiCubes for High-Resolution 3D Clothed Human Reconstruction</h3>
+        <p class="research-summary">
+          The approach combines triplane RoI features, hierarchical sparse voxels, and FlexiCubes
+          to reconstruct clothed-human geometry at high resolution without using a dense high-resolution voxel grid.
+        </p>
+      </div>
       <div id="method" class="research-block">
         <h3>Method</h3>
         <div class="method-item">
