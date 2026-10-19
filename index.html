@@ -163,6 +163,34 @@
     .tags { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 20px; }
     .tag { padding: 7px 11px; border: 1px solid #dbeafe; border-radius: 999px; background: #fff; color: #1e40af; font-size: 12px; font-weight: 650; }
 
+
+    /* Research methodology: responsive figures and sparse refinement stages */
+    .method-intro { color:#526174; max-width:940px; margin:-5px 0 22px; font-size:15px; line-height:1.8; }
+    .method-figure { margin:0; padding:15px; border:1px solid var(--line); border-radius:15px; background:#fbfdff; }
+    .method-figure img { display:block; width:100%; height:auto; }
+    .method-figure figcaption { padding:10px 5px 0; color:var(--muted); font-size:12px; line-height:1.55; }
+    .method-overview-scroll { width:100%; overflow-x:auto; }
+    .method-overview-scroll img { min-width:840px; max-width:none; }
+    .method-subheading { margin:30px 0 14px; font-size:22px; }
+    .method-detail-grid { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:24px; align-items:center; }
+    .roi-figure { max-width:580px; margin:0; }
+    .method-description { color:#526174; font-size:15px; line-height:1.8; }
+    .method-description p { margin:0 0 14px; }
+    .method-description p:last-child { margin-bottom:0; }
+    .method-description strong { color:var(--text); }
+    .method-feature-tag { display:inline-block; margin:8px 7px 0 0; padding:5px 10px; font-size:12px; font-weight:650; color:#1e40af; background:#eff6ff; border:1px solid #dbeafe; border-radius:8px; }
+    .refinement-steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; margin:19px 0 14px; }
+    .refinement-step { padding:19px; border-radius:14px; background:#f8fafc; border:1px solid var(--line); }
+    .refinement-step .resolution { font-size:22px; font-weight:800; line-height:1.4; letter-spacing:-.01em; color:#1d4ed8; }
+    .refinement-step h4 { margin:7px 0; font-size:16px; }
+    .refinement-step p { font-size:13px; color:var(--muted); margin:0; line-height:1.65; }
+    .refinement-footnote { color:var(--muted); font-size:13px; line-height:1.65; margin:0; }
+    @media (max-width:850px) {
+      .method-detail-grid { grid-template-columns:1fr; }
+      .roi-figure { max-width:480px; margin:0 auto; }
+      .refinement-steps { grid-template-columns:1fr; }
+    }
+
     .timeline { position: relative; margin-top: 4px; }
     .timeline::before { content:""; position:absolute; left: 110px; top: 12px; bottom: 12px; width: 1px; background: var(--line); }
     .timeline-item { display: grid; grid-template-columns: 88px 1fr; gap: 42px; position: relative; padding: 0 0 30px; }
@@ -236,6 +264,7 @@
       <a class="brand" href="#top">LIU Xiaocheng</a>
       <nav class="nav-links" aria-label="Primary navigation">
         <a href="#research">Research</a>
+        <a href="#method">Method</a>
         <a href="#experience">Experience</a>
         <a href="#education">Education</a>
         <a href="#projects">Projects</a>
@@ -299,7 +328,98 @@
       </div>
     </section>
 
-    <section id="experience">
+
+    <section id="method">
+      <div class="section-heading">
+        <h2>Methodology</h2>
+        <span class="section-kicker">Pipeline · RoI Features · Sparse Refinement</span>
+      </div>
+      <p class="method-intro">
+        Our framework combines multi-view image conditioning, a learned triplane representation,
+        and a coarse-to-fine voxel hierarchy for high-resolution clothed-human mesh reconstruction.
+        It uses a dense low-resolution stage for global shape, followed by surface-focused sparse refinement.
+      </p>
+
+      <h3 class="method-subheading">1. Reconstruction Pipeline</h3>
+      <figure class="method-figure">
+        <div class="method-overview-scroll">
+          <img src="assets/research/method-overview.svg" width="1180" height="520"
+            alt="Pipeline: single RGB image, diffusion-generated orthographic RGB and CCMs, U-Net, triplane features, RoI sampling, 128-cubed dense field, coarse FlexiCubes mesh, and sparse voxel subdivision through 256-cubed and 512-cubed to the final mesh."
+            loading="lazy" decoding="async"/>
+        </div>
+        <figcaption>Pipeline schematic redrawn from the supplied method overview. The 256³ intermediate level is shown explicitly to clarify the hierarchical refinement between the 128³ and 512³ stages.</figcaption>
+      </figure>
+      <div class="method-description" style="margin-top:17px;">
+        <p>
+          Starting from a single RGB image, a diffusion-based stage provides orthographic RGB images
+          and camera coordinate maps (CCMs). U-Net features form three orthogonal triplane feature maps.
+          RoI feature queries support a dense 128³ voxel prediction and initial FlexiCubes mesh extraction.
+          The coarse surface then provides a starting region for sparse voxel refinement toward a 512³-resolution mesh.
+        </p>
+      </div>
+
+      <h3 class="method-subheading">2. Triplane RoI Feature Sampling</h3>
+      <div class="method-detail-grid">
+        <figure class="method-figure roi-figure">
+          <img src="assets/research/roi-sampling.svg" width="630" height="500"
+            alt="A three-dimensional voxel projects to a rectangular region of interest on each of three orthogonal triplane feature maps: XY, XZ, and YZ."
+            loading="lazy" decoding="async"/>
+          <figcaption>Schematic redrawn from the supplied RoI sampling illustration; dashed lines indicate voxel projections.</figcaption>
+        </figure>
+        <div class="method-description">
+          <p>
+            <strong>Project each voxel region.</strong> A candidate 3D voxel is mapped to a rectangular
+            RoI on each of the XY, XZ, and YZ triplane feature maps. This captures the projected extent
+            of the voxel rather than querying only a single plane pixel.
+          </p>
+          <p>
+            <strong>Sample and fuse features.</strong> In the current implementation,
+            a 2 × 2 feature grid is bilinearly sampled from each plane's RoI.
+            With 32 feature channels per plane, the three planes yield 384 features;
+            concatenating 24-dimensional 3D positional encoding produces a 408-dimensional feature vector.
+          </p>
+          <p>
+            <strong>Predict local geometry.</strong> The fused RoI features condition subsequent
+            geometry predictions at the queried spatial locations, including signed-distance
+            and deformation estimates used by FlexiCubes.
+          </p>
+          <span class="method-feature-tag">Three feature planes</span>
+          <span class="method-feature-tag">Bilinear RoI sampling</span>
+          <span class="method-feature-tag">Spatially aligned queries</span>
+        </div>
+      </div>
+
+      <h3 class="method-subheading">3. Coarse-to-Fine Sparse Voxel Upsampling</h3>
+      <p class="method-intro">
+        Here, “upsampling” means subdividing the spatial voxel grid and refining its active
+        support near the reconstructed surface. It is distinct from simply enlarging a 2D triplane image
+        or allocating a fully dense 512³ voxel volume.
+      </p>
+      <div class="refinement-steps">
+        <article class="refinement-step">
+          <div class="resolution">128³</div>
+          <h4>Global initialization</h4>
+          <p>Predict a dense coarse voxel field and extract an initial FlexiCubes mesh. Identify candidate near-surface voxels to form the sparse starting support.</p>
+        </article>
+        <article class="refinement-step">
+          <div class="resolution">256³</div>
+          <h4>Subdivision and pruning</h4>
+          <p>Subdivide selected parent voxels into 2 × 2 × 2 children, sample triplane RoI features for finer locations, and prune candidate voxels to keep refinement sparse.</p>
+        </article>
+        <article class="refinement-step">
+          <div class="resolution">512³</div>
+          <h4>Fine geometry and meshing</h4>
+          <p>Repeat sparse subdivision and local feature queries at finer resolution; use sparse FlexiCubes to extract the high-resolution clothed-human mesh.</p>
+        </article>
+      </div>
+      <p class="refinement-footnote">
+        The intended advantage is to focus high-resolution computation around the surface.
+        Maintaining adequate active-voxel neighborhoods is important for FlexiCubes,
+        and aggressive pruning can remove regions needed for mesh extraction.
+      </p>
+    </section>
+
+        <section id="experience">
       <div class="section-heading">
         <h2>Experience</h2>
         <span class="section-kicker">Research & Industry</span>
